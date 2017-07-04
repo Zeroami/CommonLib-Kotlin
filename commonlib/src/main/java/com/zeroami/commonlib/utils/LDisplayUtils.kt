@@ -41,7 +41,7 @@ object LDisplayUtils {
      * @return
      */
     fun px2sp(pxValue: Float): Int {
-        val fontScale = CommonLib.ctx.getResources().getDisplayMetrics().scaledDensity
+        val fontScale = CommonLib.ctx.resources.displayMetrics.scaledDensity
         return (pxValue / fontScale + 0.5f).toInt()
     }
 

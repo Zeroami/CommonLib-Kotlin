@@ -20,7 +20,7 @@ object LAppUtils {
      * 获取版本号
      * @return
      */
-    val verionCode: Int
+    val versionCode: Int
         get() {
             var versionCode = 0
             try {
@@ -37,7 +37,7 @@ object LAppUtils {
      * 获取版本字符串
      * @return
      */
-    val verionName: String
+    val versionName: String
         get() {
             var versionName = ""
             try {

@@ -6,20 +6,27 @@ import android.support.v4.widget.SwipeRefreshLayout
 import com.zeroami.commonlib.R
 import com.zeroami.commonlib.base.LBaseActivity
 import com.zeroami.commonlib.utils.LT
+import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
 
 /**
  * BaseMvpActivity，实现MvpView，完成View的通用操作
  *
  * @author Zeroami
  */
-abstract class LBaseMvpActivity<P : LMvpPresenter<*>> : LBaseActivity(), LMvpView {
+abstract class LBaseMvpActivity<out P : LMvpPresenter<*>> : LBaseActivity(), LMvpView {
 
     /**
      * 获取MvpPresenter
      * @return
      */
-    protected var mvpPresenter: P? = null
-        private set
+    protected val mvpPresenter: P by object : ReadOnlyProperty<Any?, P> {
+        override fun getValue(thisRef: Any?, property: KProperty<*>): P {
+            return presenter ?: throw NullPointerException()
+        }
+    }
+
+    private var presenter: P? = null
 
     /**
      * 获取SwipeRefreshLayout
@@ -29,12 +36,12 @@ abstract class LBaseMvpActivity<P : LMvpPresenter<*>> : LBaseActivity(), LMvpVie
         private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        mvpPresenter = createPresenter()
+        presenter = createPresenter()
         super.onCreate(savedInstanceState)
     }
 
     override fun onDestroy() {
-        mvpPresenter?.detachView()
+        presenter?.detachView()
         super.onDestroy()
     }
 
@@ -63,11 +70,11 @@ abstract class LBaseMvpActivity<P : LMvpPresenter<*>> : LBaseActivity(), LMvpVie
 
 
     override fun handleExtras(extras: Bundle) {
-        mvpPresenter?.doHandleExtras(extras)
+        presenter?.doHandleExtras(extras)
     }
 
     override fun onInitialized() {
-        mvpPresenter?.doViewInitialized()
+        presenter?.doViewInitialized()
     }
 
 }

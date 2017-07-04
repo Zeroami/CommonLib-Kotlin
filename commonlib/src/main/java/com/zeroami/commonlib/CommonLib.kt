@@ -28,7 +28,7 @@ object CommonLib {
         }
     }
 
-    val TAG = "CommonLib"
+    val TAG = "TAG"
     var isDebug: Boolean = false
 
     /**

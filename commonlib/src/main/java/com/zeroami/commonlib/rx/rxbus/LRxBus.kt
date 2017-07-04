@@ -2,7 +2,6 @@ package com.zeroami.commonlib.rx.rxbus
 
 import java.util.concurrent.ConcurrentHashMap
 
-import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
@@ -33,7 +32,7 @@ object LRxBus {
         mSubject.onNext(LRxBusEvent(action, NULL))
     }
 
-    fun <T> subscribe(eventType: Class<T>, block: (T) -> Unit) : Disposable {
+    fun <T> subscribe(eventType: Class<T>, block: (T) -> Unit): Disposable {
         return mSubject.ofType(eventType).subscribe({
             try {
                 block(it)
@@ -43,7 +42,8 @@ object LRxBus {
         }, {})
     }
 
-    fun <T> subscribe(eventType: Class<T>, action: String, block: (T) -> Unit) : Disposable {
+    @Suppress("UNCHECKED_CAST")
+    fun <T> subscribe(eventType: Class<T>, action: String, block: (T) -> Unit): Disposable {
         return mSubject.filter({
             if (it !is LRxBusEvent) return@filter false
             val event = it
@@ -60,7 +60,7 @@ object LRxBus {
         }, {})
     }
 
-    fun subscribeAction(action: String, block: () -> Unit) : Disposable {
+    fun subscribeAction(action: String, block: () -> Unit): Disposable {
         return subscribe(NULL_TYPE, action, { block() })
     }
 
@@ -85,27 +85,35 @@ object LRxBus {
         post(NULL, action)
     }
 
-    fun <T> subscribeSticky(eventType: Class<T>, block: (T) -> Unit) : Disposable {
+    fun <T> subscribeSticky(eventType: Class<T>, block: (T) -> Unit): Disposable {
         synchronized(mStickyEventMap) {
             val event = mStickyEventMap[eventType]
             if (event != null) {
-                block(eventType.cast(event))
+                try {
+                    block(eventType.cast(event))
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
             return subscribe(eventType, block)
         }
     }
 
-    fun <T> subscribeSticky(eventType: Class<T>, action: String, block: (T) -> Unit) : Disposable {
+    fun <T> subscribeSticky(eventType: Class<T>, action: String, block: (T) -> Unit): Disposable {
         synchronized(mStickyActionEventMap) {
             val event = mStickyActionEventMap[eventType.toString() + action]
             if (event != null) {
-                block(eventType.cast(event))
+                try {
+                    block(eventType.cast(event))
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
             return subscribe(eventType, action, block)
         }
     }
 
-    fun subscribeStickyAction(action: String, block: () -> Unit) : Disposable{
+    fun subscribeStickyAction(action: String, block: () -> Unit): Disposable {
         return subscribeSticky(NULL_TYPE, action, { block() })
     }
 
