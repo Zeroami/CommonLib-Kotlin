@@ -4,11 +4,12 @@ import com.zeroami.commonlib.mvp.LBasePresenter
 import com.zeroami.commonlib.utils.LL
 import java.io.File
 
-class MainPresenter(view: MainContract.View) : LBasePresenter<MainContract.View, IMainModel>(view), MainContract.Presenter {
-    override fun createRealModel(): IMainModel? = MainModel()
+class MainPresenter(view: MainContract.View) : LBasePresenter<MainContract.View>(view), MainContract.Presenter {
+
+    private val mainModel : IMainModel by lazy { MainModel() }
 
     override fun doViewInitialized() {
-        val disposable = mvpModel.login("123", "456")
+        val disposable = mainModel.login("123", "456")
                 .subscribe({
                     mvpView.showResult(it)
                 },{

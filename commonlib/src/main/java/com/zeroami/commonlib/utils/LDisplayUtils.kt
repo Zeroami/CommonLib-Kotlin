@@ -104,7 +104,7 @@ object LDisplayUtils {
      * @param view
      * @param callback
      */
-    fun getViewMeasureSize(view: View, callback: (Int, Int) -> Unit) {
+    fun getViewMeasureSize(view: View, callback: (with: Int, height: Int) -> Unit) {
         view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 view.viewTreeObserver.removeGlobalOnLayoutListener(this)

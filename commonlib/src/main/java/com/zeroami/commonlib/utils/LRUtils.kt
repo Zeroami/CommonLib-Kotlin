@@ -35,7 +35,7 @@ object LRUtils {
      * @return
      */
     fun getString(resId: Int, vararg formatArgs: Any): String {
-        return CommonLib.ctx.resources.getString(resId, formatArgs)
+        return CommonLib.ctx.resources.getString(resId, *formatArgs)
     }
 
     /**

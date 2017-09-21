@@ -2,28 +2,14 @@ package com.zeroami.commonlib.utils
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.PixelFormat
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
-import android.graphics.Rect
-import android.graphics.RectF
+import android.graphics.*
 import android.graphics.drawable.Drawable
+import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.provider.MediaStore
 import android.view.View
-
 import com.zeroami.commonlib.CommonLib
-
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
+import java.io.*
 
 /**
  * Bitmap工具类
@@ -48,8 +34,7 @@ object LBitmapUtils {
             // 计算出实际宽高和目标宽高的比率
             val heightRatio = Math.round(height.toFloat() / reqHeight.toFloat())
             val widthRatio = Math.round(width.toFloat() / reqWidth.toFloat())
-            // 选择宽和高中最小的比率作为inSampleSize的值，这样可以保证最终图片的宽和高一定都会大于等于目标的宽和高。
-            inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
+            inSampleSize = if (heightRatio > widthRatio) heightRatio else widthRatio
         }
         // 设置压缩比例
         options.inSampleSize = inSampleSize
@@ -203,10 +188,33 @@ object LBitmapUtils {
             baos.reset()// 重置baos即清空baos
             bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos)// 这里压缩options%，把压缩后的数据存放到baos中
             options -= 10// 每次都减少10
+            if (options == 10){
+                break
+            }
         }
         val bais = ByteArrayInputStream(baos.toByteArray())// 把压缩后的数据baos存放到ByteArrayInputStream中
         val output = BitmapFactory.decodeStream(bais, null, null)// 把ByteArrayInputStream数据生成图片
         return output
+    }
+
+    /**
+     * 压缩图片大小
+     * @param bitmap
+     * @param maxKb     压缩的图片大小的最大值
+     */
+    fun compressImageToFile(bitmap: Bitmap, maxKb: Int,filePath:String){
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)// 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        var options = 100
+        while (baos.toByteArray().size / 1024 > maxKb) { // 循环判断如果压缩后图片是否大于多少kb,大于继续压缩
+            baos.reset()// 重置baos即清空baos
+            bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos)// 这里压缩options%，把压缩后的数据存放到baos中
+            options -= 10// 每次都减少10
+            if (options == 10){
+                break
+            }
+        }
+        baos.writeTo(FileOutputStream(File(filePath)))
     }
 
     /**
@@ -248,7 +256,7 @@ object LBitmapUtils {
      * @param isScan 是否插入系统媒体库
      * @return
      */
-    fun saveImage(bitmap: Bitmap, dir: String, filename: String, isScan: Boolean): Boolean {
+    fun saveImage(bitmap: Bitmap, dir: String, filename: String, isScan: Boolean): String {
         val path = File(dir)
         if (!path.exists()) {
             path.mkdirs()
@@ -261,7 +269,7 @@ object LBitmapUtils {
             file.createNewFile()
         } catch (e: Exception) {
             e.printStackTrace()
-            return false
+            return ""
         }
 
         var fileOutputStream: FileOutputStream? = null
@@ -273,7 +281,7 @@ object LBitmapUtils {
 
         } catch (e: Exception) {
             e.printStackTrace()
-            return false
+            return ""
         } finally {
             try {
                 fileOutputStream?.close()
@@ -296,7 +304,7 @@ object LBitmapUtils {
             CommonLib.ctx.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + file)))
         }
 
-        return true
+        return file.absolutePath
     }
 
     /**
@@ -345,5 +353,15 @@ object LBitmapUtils {
         val output = Bitmap.createBitmap(bitmap, 0, statusBarHeight, width, height - statusBarHeight)
         view.destroyDrawingCache()
         return output
+    }
+
+    /**
+     * 获取本地视频缩略图
+     */
+    fun getVideoThumb(videoPath: String): Bitmap {
+        val media = MediaMetadataRetriever()
+        media.setDataSource(videoPath)
+        val bitmap = media.frameAtTime
+        return bitmap
     }
 }

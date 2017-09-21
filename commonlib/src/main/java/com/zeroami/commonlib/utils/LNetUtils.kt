@@ -16,7 +16,7 @@ import com.zeroami.commonlib.CommonLib
 class LNetUtils private constructor() {
     private val receiver: LNetworkBroadcastReceiver
     private val filter: IntentFilter
-    private var listener: (Boolean) -> Unit = {}
+    private var listener: (isNetworkConnected: Boolean) -> Unit = {}
 
     init {
         receiver = LNetworkBroadcastReceiver()
@@ -28,7 +28,7 @@ class LNetUtils private constructor() {
      * 注册监听器
      * @param listener
      */
-    fun registerNetworkStateListener(listener:(Boolean) -> Unit) {
+    fun registerNetworkStateListener(listener: (isNetworkConnected: Boolean) -> Unit) {
         CommonLib.ctx.registerReceiver(receiver, filter)
         this.listener = listener
     }

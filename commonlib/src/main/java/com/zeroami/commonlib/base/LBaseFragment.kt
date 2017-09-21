@@ -21,7 +21,7 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
      * 获取布局View
      * @return
      */
-    var layoutView: View? = null
+    protected lateinit var layoutView: View
         private set
 
     private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
@@ -30,7 +30,7 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
      * View是否已经被销毁
      * @return
      */
-    var isViewDestroyed = false
+    protected var isViewDestroyed = false
         private set
 
 
@@ -47,7 +47,7 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        layoutView = inflater?.inflate(layoutId, container, false)
+        layoutView = inflater!!.inflate(layoutId, container, false)
         onViewCreated()
         isViewDestroyed = false
         initialize(layoutView, savedInstanceState)
@@ -80,7 +80,7 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
      * 初始化操作
      * @param savedInstanceState
      */
-    protected abstract fun initialize(layoutView: View?, savedInstanceState: Bundle?)
+    protected abstract fun initialize(layoutView: View, savedInstanceState: Bundle?)
 
     /**
      * 处理携带的数据
