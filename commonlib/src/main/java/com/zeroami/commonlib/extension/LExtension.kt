@@ -1,6 +1,7 @@
 package com.zeroami.commonlib.extension
 
 import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.TextView
@@ -21,6 +22,16 @@ fun TextView.addTextChangedListener(l: (text: String) -> Unit) {
     })
 }
 
+private var handler = Handler(Looper.getMainLooper())
+
 fun Any.delay(delayMillis: Long, block: () -> Unit) {
-    Handler().postDelayed(block, delayMillis)
+    handler.postDelayed(block, delayMillis)
+}
+
+fun Any.uiThread(block: () -> Unit){
+    handler.post(block)
+}
+
+fun Any.async(block: () -> Unit){
+    Thread(block).start()
 }

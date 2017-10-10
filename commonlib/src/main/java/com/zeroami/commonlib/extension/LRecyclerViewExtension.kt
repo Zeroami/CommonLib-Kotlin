@@ -9,33 +9,33 @@ import com.chad.library.adapter.base.listener.OnItemChildLongClickListener
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.chad.library.adapter.base.listener.OnItemLongClickListener
 
-fun RecyclerView.addOnItemClickListener(l: (adapter: BaseQuickAdapter<*>?, view: View?, position: Int) -> Unit) {
+fun RecyclerView.addOnItemClickListener(l: (adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) -> Unit) {
     this.addOnItemTouchListener(object : OnItemClickListener() {
-        override fun SimpleOnItemClick(adapter: BaseQuickAdapter<*>?, view: View?, position: Int) {
+        override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
             l(adapter, view, position)
         }
     })
 }
 
-fun RecyclerView.addOnItemLongClickListener(l: (adapter: BaseQuickAdapter<*>?, view: View?, position: Int) -> Unit) {
+fun RecyclerView.addOnItemLongClickListener(l: (adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) -> Unit) {
     this.addOnItemTouchListener(object : OnItemLongClickListener() {
-        override fun SimpleOnItemLongClick(adapter: BaseQuickAdapter<*>?, view: View?, position: Int) {
+        override fun onSimpleItemLongClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
             l(adapter, view, position)
         }
     })
 }
 
-fun RecyclerView.addOnItemChildClickListener(l: (adapter: BaseQuickAdapter<*>?, view: View?, position: Int) -> Unit) {
+fun RecyclerView.addOnItemChildClickListener(l: (adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) -> Unit) {
     this.addOnItemTouchListener(object : OnItemChildClickListener() {
-        override fun SimpleOnItemChildClick(adapter: BaseQuickAdapter<*>?, view: View?, position: Int) {
+        override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
             l(adapter, view, position)
         }
     })
 }
 
-fun RecyclerView.addOnItemChildLongClickListener(l: (adapter: BaseQuickAdapter<*>?, view: View?, position: Int) -> Unit) {
+fun RecyclerView.addOnItemChildLongClickListener(l: (adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) -> Unit) {
     this.addOnItemTouchListener(object : OnItemChildLongClickListener() {
-        override fun SimpleOnItemChildLongClick(adapter: BaseQuickAdapter<*>?, view: View?, position: Int) {
+        override fun onSimpleItemChildLongClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
             l(adapter, view, position)
         }
     })
@@ -50,11 +50,11 @@ fun RecyclerView.moveToPosition(position: Int, offset: Int = 0) {
 }
 
 
-var isAdded = false
-var move = false
-var index = 0
+private var isAdded = false
+private var move = false
+private var index = 0
 
-var onScrollListener = object : RecyclerView.OnScrollListener() {
+private var onScrollListener = object : RecyclerView.OnScrollListener() {
     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
         super.onScrollStateChanged(recyclerView, newState)
         if (move && newState == RecyclerView.SCROLL_STATE_IDLE) {
