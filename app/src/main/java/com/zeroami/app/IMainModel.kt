@@ -1,11 +1,9 @@
 package com.zeroami.app
 
-import com.zeroami.commonlib.mvp.LMvpModel
-import io.reactivex.Observable
-import java.io.File
+import io.reactivex.disposables.Disposable
 
 
-interface IMainModel : LMvpModel{
+interface IMainModel{
 
-    fun login(account:String,password:String) : Observable<String>
+    fun login(account:String,password:String,callback: (e: Throwable?,result:String?) -> Unit) : Disposable
 }

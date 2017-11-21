@@ -48,11 +48,15 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         layoutView = inflater!!.inflate(layoutId, container, false)
+        return layoutView
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         onViewCreated()
         isViewDestroyed = false
-        initialize(layoutView, savedInstanceState)
+        initialize(savedInstanceState)
         onInitialized()
-        return layoutView
     }
 
     override fun onDestroyView() {
@@ -80,11 +84,10 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
      * 初始化操作
      * @param savedInstanceState
      */
-    protected abstract fun initialize(layoutView: View, savedInstanceState: Bundle?)
+    protected abstract fun initialize(savedInstanceState: Bundle?)
 
     /**
      * 处理携带的数据
-
      * @param arguments
      */
     protected open fun handleArguments(arguments: Bundle) {}

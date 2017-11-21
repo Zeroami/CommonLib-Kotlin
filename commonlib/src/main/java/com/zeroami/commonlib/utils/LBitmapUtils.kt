@@ -358,7 +358,7 @@ object LBitmapUtils {
     /**
      * 获取本地视频缩略图
      */
-    fun getVideoThumb(videoPath: String): Bitmap {
+    fun getVideoThumb(videoPath: String): Bitmap? {
         val media = MediaMetadataRetriever()
         media.setDataSource(videoPath)
         val bitmap = media.frameAtTime
