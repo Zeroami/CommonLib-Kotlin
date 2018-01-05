@@ -11,7 +11,7 @@ import java.util.ArrayList
  */
 object LActivityUtils {
 
-    private val activityList by lazy { ArrayList<Activity>() }
+    val activityList by lazy { ArrayList<Activity>() }
 
     /**
      * 将Activity加入Activity列表

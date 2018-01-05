@@ -54,6 +54,13 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onViewCreated()
+        //避免重复添加Fragment
+        if (childFragmentManager.fragments == null || childFragmentManager.fragments.isEmpty()) {
+            val firstFragment = getFirstFragment()
+            if (firstFragment != null) {
+                replaceFragment(firstFragment, false)
+            }
+        }
         isViewDestroyed = false
         initialize(savedInstanceState)
         onInitialized()
@@ -74,6 +81,13 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
      * @return
      */
     protected abstract val layoutId: Int
+
+    /**
+     * 获取Fragment容器id
+     * @return
+     */
+    protected open val fragmentContainerId: Int
+        get() = 0
 
     /**
      * setContentView完成
@@ -101,6 +115,79 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
      * initialize完成
      */
     protected open fun onInitialized() {}
+
+    /**
+     * 获取显示的第一个Fragment
+     * @return
+     */
+    protected open fun getFirstFragment(): Fragment? = null
+
+
+    /**
+     * 添加fragment
+     * @param fragment
+     */
+    fun addFragment(fragment: Fragment?, isAddToBackStack: Boolean) {
+        if (fragment != null) {
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.add(fragmentContainerId, fragment, fragment.javaClass.simpleName)
+            if (isAddToBackStack) {
+                transaction.addToBackStack(fragment.javaClass.simpleName)
+            }
+            transaction.commit()
+        }
+    }
+
+    /**
+     * 替换fragment
+     * @param fragment
+     */
+    fun replaceFragment(fragment: Fragment?, isAddToBackStack: Boolean) {
+        if (fragment != null) {
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.replace(fragmentContainerId, fragment, fragment.javaClass.simpleName)
+            if (isAddToBackStack) {
+                transaction.addToBackStack(fragment.javaClass.simpleName)
+            }
+            transaction.commit()
+        }
+    }
+
+    /**
+     * 显示fragment
+     * @param fragment
+     */
+    fun showFragment(fragment: Fragment?) {
+        if (fragment != null) {
+            childFragmentManager.beginTransaction()
+                    .show(fragment)
+                    .commit()
+        }
+    }
+
+    /**
+     * 隐藏fragment
+     * @param fragment
+     */
+    fun hideFragment(fragment: Fragment?) {
+        if (fragment != null) {
+            childFragmentManager.beginTransaction()
+                    .hide(fragment)
+                    .commit()
+        }
+    }
+
+    /**
+     * 移除fragment
+     * @param fragment
+     */
+    fun removeFragment(fragment: Fragment?) {
+        if (fragment != null) {
+            childFragmentManager.beginTransaction()
+                    .remove(fragment)
+                    .commit()
+        }
+    }
 
     override fun addDisposable(disposable: Disposable) {
         compositeDisposable.add(disposable)

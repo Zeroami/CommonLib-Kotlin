@@ -1,22 +1,12 @@
 package com.zeroami.commonlib.utils
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Environment
 import android.text.TextUtils
-
-import java.io.BufferedReader
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileFilter
-import java.io.FileInputStream
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.FileWriter
-import java.io.IOException
-import java.io.InputStream
-import java.io.InputStreamReader
-import java.io.OutputStream
-import java.util.ArrayList
-import java.util.HashMap
+import com.zeroami.commonlib.CommonLib
+import okhttp3.ResponseBody
+import java.io.*
 
 /**
  * 文件工具类
@@ -128,7 +118,7 @@ object LFileUtils {
         }
 
         val pos = filePath.lastIndexOf(File.separator)
-        return if (pos == -1) "" else filePath.substring(pos + 1)
+        return if (pos == -1) filePath else filePath.substring(pos + 1)
     }
 
     /**
@@ -161,6 +151,35 @@ object LFileUtils {
             return ""
         }
         return if (filePos >= extPos) "" else filePath.substring(extPos + 1)
+    }
+
+    /**
+     * 获取不重复文件名
+     */
+    fun getNoRepeatFileName(dirPath: String, fileName: String): String {
+        val dir = File(dirPath)
+        var newFileName = fileName
+        val fileNameWithoutExt = getFileNameWithoutExt(fileName)
+        val ext = if (getFileExtension(fileName).isNotEmpty()) "." + getFileExtension(fileName) else ""
+        val fileNames = dir.list() ?: return fileName
+        var i = 1
+        while (fileNames.contains(newFileName)) {
+            newFileName = "$fileNameWithoutExt($i)$ext"
+            i++
+        }
+        return newFileName
+    }
+
+    /**
+     * 获取文件名（不带后缀）
+     */
+    fun getFileNameWithoutExt(filePath: String): String {
+        val fileName = getFileName(filePath)
+        val extPos = fileName.lastIndexOf(FILE_EXTENSION_SEPARATOR)
+        if (extPos == -1) {
+            return fileName
+        }
+        return fileName.substring(0, extPos)
     }
 
     /**
@@ -205,5 +224,55 @@ object LFileUtils {
 
         val dire = File(directoryPath)
         return dire.exists() && dire.isDirectory
+    }
+
+    /**
+     * 写入网络响应结果到本地
+     */
+    fun writeResponseBodyToDisk(body: ResponseBody, path:String): Boolean {
+        LFileUtils.makeDirs(path)
+        val file = File(path)
+        var inputStream: InputStream? = null
+        var outputStream: OutputStream? = null
+
+        try {
+            try {
+                val fileReader = ByteArray(1024 * 1024)
+                var fileSizeDownloaded: Long = 0
+                inputStream = body.byteStream()
+                outputStream = FileOutputStream(file)
+
+                while (true) {
+                    val read = inputStream!!.read(fileReader)
+
+                    if (read == -1) {
+                        break
+                    }
+                    outputStream.write(fileReader, 0, read)
+                    fileSizeDownloaded += read.toLong()
+                }
+                outputStream.flush()
+                return true
+            } catch (e: IOException) {
+                e.printStackTrace()
+                return false
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close()
+                }
+                if (outputStream != null) {
+                    outputStream.close()
+                }
+            }
+        } catch (e: IOException) {
+            return false
+        }
+    }
+
+    /**
+     * 扫描文件到媒体库
+     */
+    fun scanFile(filePath:String){
+        CommonLib.ctx.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + filePath)))
     }
 }

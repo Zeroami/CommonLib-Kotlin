@@ -41,8 +41,8 @@ abstract class LBaseActivity : SwipeBackActivity(), LRxSupport {
         setContentView(layoutId)
         onViewCreated()
         //避免重复添加Fragment
-        if (supportFragmentManager.fragments == null) {
-            val firstFragment = firstFragment
+        if (supportFragmentManager.fragments == null || supportFragmentManager.fragments.isEmpty()) {
+            val firstFragment = getFirstFragment()
             if (firstFragment != null) {
                 replaceFragment(firstFragment, false)
             }
@@ -129,8 +129,7 @@ abstract class LBaseActivity : SwipeBackActivity(), LRxSupport {
      * 获取显示的第一个Fragment
      * @return
      */
-    protected open val firstFragment: Fragment?
-        get() = null
+    protected open fun getFirstFragment(): Fragment? = null
 
 
     /**
@@ -145,17 +144,6 @@ abstract class LBaseActivity : SwipeBackActivity(), LRxSupport {
                 transaction.addToBackStack(fragment.javaClass.simpleName)
             }
             transaction.commit()
-        }
-    }
-
-    /**
-     * 移除fragment
-     */
-    fun popFragmentFromBackStack() {
-        if (supportFragmentManager.backStackEntryCount >= 1) {
-            supportFragmentManager.popBackStack()
-        } else {
-            finish()
         }
     }
 

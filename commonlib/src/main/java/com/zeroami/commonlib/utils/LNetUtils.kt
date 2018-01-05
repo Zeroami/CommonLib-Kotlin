@@ -13,7 +13,7 @@ import com.zeroami.commonlib.CommonLib
  *
  * @author Zeroami
  */
-class LNetUtils private constructor() {
+class LNetUtils {
     private val receiver: LNetworkBroadcastReceiver
     private val filter: IntentFilter
     private var listener: (isNetworkConnected: Boolean) -> Unit = {}
@@ -53,13 +53,7 @@ class LNetUtils private constructor() {
         }
     }
 
-    private object Holder {
-        val INSTANCE = LNetUtils()
-    }
-
     companion object {
-
-        val instance by lazy { Holder.INSTANCE }
 
         /**
          * 判断是否有网络连接

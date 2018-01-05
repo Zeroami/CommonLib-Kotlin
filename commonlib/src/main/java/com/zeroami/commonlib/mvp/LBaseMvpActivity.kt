@@ -47,7 +47,7 @@ abstract class LBaseMvpActivity<out P : LMvpPresenter<*>> : LBaseActivity(), LMv
 
     override fun onViewCreated() {
         super.onViewCreated()
-        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout) as SwipeRefreshLayout?
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout) as SwipeRefreshLayout?
     }
 
     /**
@@ -68,6 +68,9 @@ abstract class LBaseMvpActivity<out P : LMvpPresenter<*>> : LBaseActivity(), LMv
         LT.show(text)
     }
 
+    override fun showError(text: CharSequence) {
+        LT.show(text)
+    }
 
     override fun handleExtras(extras: Bundle) {
         presenter?.doHandleExtras(extras)

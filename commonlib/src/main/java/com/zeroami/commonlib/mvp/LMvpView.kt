@@ -23,4 +23,8 @@ interface LMvpView {
      */
     fun showMessage(text: CharSequence)
 
+    /**
+     * 显示错误
+     */
+    fun showError(text: CharSequence = "出错了～")
 }

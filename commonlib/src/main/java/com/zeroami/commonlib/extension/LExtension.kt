@@ -24,14 +24,18 @@ fun TextView.addTextChangedListener(l: (text: String) -> Unit) {
 
 private var handler = Handler(Looper.getMainLooper())
 
-fun Any.delay(delayMillis: Long, block: () -> Unit) {
+fun delay(delayMillis: Long, block: () -> Unit) {
     handler.postDelayed(block, delayMillis)
 }
 
-fun Any.uiThread(block: () -> Unit){
+fun runOnHandler(block: () -> Unit) {
     handler.post(block)
 }
 
-fun Any.async(block: () -> Unit){
+fun uiThread(block: () -> Unit) {
+    handler.post(block)
+}
+
+fun async(block: () -> Unit) {
     Thread(block).start()
 }
