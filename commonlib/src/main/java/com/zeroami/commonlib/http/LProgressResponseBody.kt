@@ -1,7 +1,5 @@
 package com.zeroami.commonlib.http
 
-import java.io.IOException
-
 import okhttp3.MediaType
 import okhttp3.Response
 import okhttp3.ResponseBody
@@ -9,6 +7,7 @@ import okio.Buffer
 import okio.BufferedSource
 import okio.ForwardingSource
 import okio.Okio
+import java.io.IOException
 
 /**
  * 带进度信息的ResponseBody
@@ -16,7 +15,7 @@ import okio.Okio
  * @author Zeroami
  */
 class LProgressResponseBody(private val originalResponse: Response,
-                            private val progressListener: (current:Long,total:Long) -> Unit) : ResponseBody() {
+                            private val progressListener: (current: Long, total: Long) -> Unit) : ResponseBody() {
     private var bufferedSource: BufferedSource? = null
 
     override fun contentType(): MediaType {

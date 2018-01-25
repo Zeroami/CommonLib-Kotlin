@@ -2,6 +2,8 @@ package com.zeroami.commonlib.extension
 
 import android.os.Handler
 import android.os.Looper
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.TextView
@@ -38,4 +40,15 @@ fun uiThread(block: () -> Unit) {
 
 fun async(block: () -> Unit) {
     Thread(block).start()
+}
+
+fun runFragment(activity: FragmentActivity, fragment: Fragment) {
+    activity.supportFragmentManager.findFragmentByTag(fragment::javaClass.name)?.let {
+        activity.supportFragmentManager.beginTransaction().remove(it).commit()
+    }
+    activity.supportFragmentManager
+            .beginTransaction()
+            .add(fragment, fragment::javaClass.name)
+            .commit()
+    activity.supportFragmentManager.executePendingTransactions()
 }

@@ -1,22 +1,15 @@
 package com.zeroami.commonlib.http
 
 import com.zeroami.commonlib.utils.LL
-
+import okhttp3.Interceptor
+import okhttp3.MultipartBody
+import okhttp3.Response
+import okio.Buffer
 import org.json.JSONException
 import org.json.JSONObject
-
 import java.io.EOFException
 import java.io.IOException
 import java.nio.charset.Charset
-
-import okhttp3.Interceptor
-import okhttp3.MultipartBody
-import okhttp3.Request
-import okhttp3.RequestBody
-import okhttp3.Response
-import okhttp3.ResponseBody
-import okio.Buffer
-import okio.BufferedSource
 
 /**
  * Http请求日志拦截器

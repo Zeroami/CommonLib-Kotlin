@@ -100,15 +100,15 @@ object LDisplayUtils {
         }
 
     /**
-     * 获取View的测量宽高
+     * 添加layout完成监听
      * @param view
      * @param callback
      */
-    fun getViewMeasureSize(view: View, callback: (width: Int, height: Int) -> Unit) {
+    fun addLayoutListener(view: View, callback: (view: View) -> Unit) {
         view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 view.viewTreeObserver.removeGlobalOnLayoutListener(this)
-                callback(view.measuredWidth, view.measuredHeight)
+                callback(view)
             }
         })
     }

@@ -1,14 +1,9 @@
 package com.zeroami.commonlib.http
 
-import java.io.IOException
-
 import okhttp3.MediaType
 import okhttp3.RequestBody
-import okio.Buffer
-import okio.BufferedSink
-import okio.ForwardingSink
-import okio.Okio
-import okio.Sink
+import okio.*
+import java.io.IOException
 
 /**
  * 带进度信息的RequestBody
@@ -17,7 +12,7 @@ import okio.Sink
  */
 class LProgressRequestBody(
         private val requestBody: RequestBody,
-        private val progressListener: (current:Long,total:Long) -> Unit) : RequestBody() {
+        private val progressListener: (current: Long, total: Long) -> Unit) : RequestBody() {
 
     //包装完成的BufferedSink
     private var bufferedSink: BufferedSink? = null
