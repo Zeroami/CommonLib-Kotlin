@@ -12,7 +12,6 @@ interface LMvpPresenter<in V : LMvpView> {
 
     /**
      * 关联View
-     * @param view
      */
     fun attachView(view: V)
 
@@ -28,8 +27,11 @@ interface LMvpPresenter<in V : LMvpView> {
 
     /**
      * 处理携带数据
-     * @param extras
      */
-    fun doHandleExtras(extras: Bundle)
+    fun handleExtras(extras: Bundle)
 
+    /**
+     * 订阅事件
+     */
+    fun subscribeEvent()
 }

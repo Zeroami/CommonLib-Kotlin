@@ -19,18 +19,12 @@ abstract class LBasePresenter<V : LMvpView>(view: V) : LMvpPresenter<V>, LRxSupp
         private set
 
     private lateinit var emptyMvpView: V    // 一个空实现的MvpView，避免V和P解除绑定时P持有的V的MvpView引用为空导致空指针
-    private val compositeDisposable : CompositeDisposable by lazy { CompositeDisposable() }
+    private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 
     init {
         attachView(view)
         createEmptyMvpView()
-        subscribeRxBus()
     }
-
-    /**
-     * 订阅RxBus
-     */
-    protected open fun subscribeRxBus() {}
 
     /**
      * 关联完成调用
@@ -44,7 +38,9 @@ abstract class LBasePresenter<V : LMvpView>(view: V) : LMvpPresenter<V>, LRxSupp
 
     override fun doViewInitialized() {}
 
-    override fun doHandleExtras(extras: Bundle) {}
+    override fun handleExtras(extras: Bundle) {}
+
+    override fun subscribeEvent() {}
 
     override fun attachView(view: V) {
         mvpView = view

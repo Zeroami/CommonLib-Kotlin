@@ -31,8 +31,6 @@ object LRUtils {
 
     /**
      * 获取资源Id内容
-     * @param resId
-     * @return
      */
     fun getString(resId: Int, vararg formatArgs: Any): String {
         return CommonLib.ctx.resources.getString(resId, *formatArgs)
@@ -40,8 +38,6 @@ object LRUtils {
 
     /**
      * 获取资源Id内容
-     * @param resId
-     * @return
      */
     fun getColor(resId: Int): Int {
         return CommonLib.ctx.resources.getColor(resId)
@@ -49,8 +45,6 @@ object LRUtils {
 
     /**
      * 获取资源Id内容
-     * @param resId
-     * @return
      */
     fun getDimension(resId: Int): Float {
         return CommonLib.ctx.resources.getDimension(resId)
@@ -58,8 +52,6 @@ object LRUtils {
 
     /**
      * 获取资源Id内容
-     * @param resId
-     * @return
      */
     fun getDimensionPixelSize(resId: Int): Int {
         return CommonLib.ctx.resources.getDimensionPixelSize(resId)
@@ -67,8 +59,6 @@ object LRUtils {
 
     /**
      * 获取资源Id内容
-     * @param resId
-     * @return
      */
     fun getDrawable(resId: Int): Drawable {
         return CommonLib.ctx.resources.getDrawable(resId)
@@ -76,8 +66,6 @@ object LRUtils {
 
     /**
      * 根据字符串获取Id
-     * @param name
-     * @return
      */
     fun getAnimId(name: String): Int {
         try {
@@ -94,8 +82,6 @@ object LRUtils {
 
     /**
      * 根据字符串获取Id
-     * @param name
-     * @return
      */
     fun getAttrId(name: String): Int {
         try {
@@ -112,8 +98,6 @@ object LRUtils {
 
     /**
      * 根据字符串获取Id
-     * @param name
-     * @return
      */
     fun getColorId(name: String): Int {
         try {
@@ -130,8 +114,6 @@ object LRUtils {
 
     /**
      * 根据字符串获取Id
-     * @param name
-     * @return
      */
     fun getDimenId(name: String): Int {
         try {
@@ -148,8 +130,6 @@ object LRUtils {
 
     /**
      * 根据字符串获取Id
-     * @param name
-     * @return
      */
     fun getDrawableId(name: String): Int {
         try {
@@ -166,8 +146,6 @@ object LRUtils {
 
     /**
      * 根据字符串获取Id
-     * @param name
-     * @return
      */
     fun getMipmapId(name: String): Int {
         try {
@@ -184,8 +162,6 @@ object LRUtils {
 
     /**
      * 根据字符串获取Id
-     * @param name
-     * @return
      */
     fun getId(name: String): Int {
         try {
@@ -202,8 +178,6 @@ object LRUtils {
 
     /**
      * 根据字符串获取Id
-     * @param name
-     * @return
      */
     fun getLayoutId(name: String): Int {
         try {
@@ -220,8 +194,6 @@ object LRUtils {
 
     /**
      * 根据字符串获取Id
-     * @param name
-     * @return
      */
     fun getMenuId(name: String): Int {
         try {
@@ -238,8 +210,6 @@ object LRUtils {
 
     /**
      * 根据字符串获取Id
-     * @param name
-     * @return
      */
     fun getRawId(name: String): Int {
         try {
@@ -256,8 +226,6 @@ object LRUtils {
 
     /**
      * 根据字符串获取Id
-     * @param name
-     * @return
      */
     fun getStringId(name: String): Int {
         try {
@@ -274,8 +242,6 @@ object LRUtils {
 
     /**
      * 根据字符串获取Id
-     * @param name
-     * @return
      */
     fun getStyleId(name: String): Int {
         try {
@@ -292,8 +258,6 @@ object LRUtils {
 
     /**
      * 根据字符串获取Id
-     * @param name
-     * @return
      */
     fun getStyleable(name: String): IntArray? {
         try {
@@ -310,9 +274,6 @@ object LRUtils {
 
     /**
      * 根据字符串获取Id
-     * @param styleableName
-     * @param attributeName
-     * @return
      */
     fun getStyleableAttribute(
             styleableName: String, attributeName: String): Int {

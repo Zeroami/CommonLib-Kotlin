@@ -25,7 +25,6 @@ object LSPUtils {
 
         /**
          * 反射查找apply的方法
-         * @return
          */
         private fun findApplyMethod(): Method? {
             try {
@@ -39,7 +38,6 @@ object LSPUtils {
 
         /**
          * 如果找到则使用apply执行，否则使用commit
-         * @param editor
          */
         fun apply(editor: SharedPreferences.Editor) {
             try {
@@ -67,8 +65,6 @@ object LSPUtils {
 
     /**
      * 保存数据的方法，我们需要拿到保存数据的具体类型，然后根据类型调用不同的保存方法
-     * @param key
-     * @param value
      */
     fun put(key: String, value: Any) {
 
@@ -90,10 +86,6 @@ object LSPUtils {
 
     /**
      * 得到保存数据的方法，我们根据默认值得到保存的数据的具体类型，然后调用相对于的方法获取值
-     * @param key
-     * @param defaultValue
-     * @param <T>
-     * @return
      */
     @Suppress("UNCHECKED_CAST", "IMPLICIT_CAST_TO_ANY")
     fun <T> get(key: String, defaultValue: T): T {
@@ -112,7 +104,6 @@ object LSPUtils {
 
     /**
      * 移除某个key值已经对应的值
-     * @param key
      */
     fun remove(key: String) {
         val sp = CommonLib.ctx.getSharedPreferences(fileName,
@@ -135,8 +126,6 @@ object LSPUtils {
 
     /**
      * 查询某个key是否已经存在
-     * @param key
-     * @return
      */
     operator fun contains(key: String): Boolean {
         val sp = CommonLib.ctx.getSharedPreferences(fileName,
@@ -146,7 +135,6 @@ object LSPUtils {
 
     /**
      * 返回所有的键值对
-     * @return
      */
     val all: Map<String, *>
         get() {

@@ -19,7 +19,6 @@ object LUtils {
 
     /**
      * 复制文本到剪贴板
-     * @param text
      */
     fun copyToClipboard(text: String) {
         if (Build.VERSION.SDK_INT >= 11) {
@@ -33,10 +32,6 @@ object LUtils {
 
     /**
      * 判断事件点是否在控件内
-     * @param view
-     * @param x
-     * @param y
-     * @return
      */
     fun isTouchPointInView(view: View, x: Float, y: Float): Boolean {
         val location = IntArray(2)

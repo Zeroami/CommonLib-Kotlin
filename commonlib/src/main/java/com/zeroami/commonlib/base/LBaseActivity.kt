@@ -49,7 +49,7 @@ abstract class LBaseActivity : SwipeBackActivity(), LRxSupport {
         }
         setSwipeBackEnable(isSwipeBackEnable)      // 默认不带滑动退出的效果，让子类根据需要设置
         initialize(savedInstanceState)
-        subscribeRxBus()
+        subscribeEvent()
         onInitialized()
     }
 
@@ -61,25 +61,21 @@ abstract class LBaseActivity : SwipeBackActivity(), LRxSupport {
 
     /**
      * 获取布局文件id
-     * @return
      */
     protected abstract val layoutId: Int
 
     /**
      * 初始化操作
-     * @param savedInstanceState
      */
     protected abstract fun initialize(savedInstanceState: Bundle?)
 
     /**
      * 处理Intent
-     * @param intent
      */
     protected open fun handleIntent(intent: Intent) {}
 
     /**
      * 处理携带的数据
-     * @param extras
      */
     protected open fun handleExtras(extras: Bundle) {}
 
@@ -90,24 +86,18 @@ abstract class LBaseActivity : SwipeBackActivity(), LRxSupport {
 
     /**
      * 是否全屏显示布局，会将布局延伸到状态栏
-     * @return
      */
-    protected open val isFullScreenLayout: Boolean
-        get() = false
+    protected open val isFullScreenLayout: Boolean = false
 
     /**
      * 是否启动滑动返回
-     * @return
      */
-    protected open val isSwipeBackEnable: Boolean
-        get() = false
+    protected open val isSwipeBackEnable: Boolean = false
 
     /**
      * 获取Fragment容器id
-     * @return
      */
-    protected open val fragmentContainerId: Int
-        get() = 0
+    protected open val fragmentContainerId: Int = 0
 
     /**
      * setContentView完成
@@ -115,9 +105,9 @@ abstract class LBaseActivity : SwipeBackActivity(), LRxSupport {
     protected open fun onViewCreated() {}
 
     /**
-     * 订阅RxBus
+     * 订阅事件
      */
-    protected open fun subscribeRxBus() {}
+    protected open fun subscribeEvent() {}
 
     /**
      * initialize完成
@@ -127,14 +117,12 @@ abstract class LBaseActivity : SwipeBackActivity(), LRxSupport {
 
     /**
      * 获取显示的第一个Fragment
-     * @return
      */
     protected open fun getFirstFragment(): Fragment? = null
 
 
     /**
      * 添加fragment
-     * @param fragment
      */
     fun addFragment(fragment: Fragment?, isAddToBackStack: Boolean) {
         if (fragment != null) {
@@ -149,7 +137,6 @@ abstract class LBaseActivity : SwipeBackActivity(), LRxSupport {
 
     /**
      * 替换fragment
-     * @param fragment
      */
     fun replaceFragment(fragment: Fragment?, isAddToBackStack: Boolean) {
         if (fragment != null) {
@@ -164,7 +151,6 @@ abstract class LBaseActivity : SwipeBackActivity(), LRxSupport {
 
     /**
      * 显示fragment
-     * @param fragment
      */
     fun showFragment(fragment: Fragment?) {
         if (fragment != null) {
@@ -176,7 +162,6 @@ abstract class LBaseActivity : SwipeBackActivity(), LRxSupport {
 
     /**
      * 隐藏fragment
-     * @param fragment
      */
     fun hideFragment(fragment: Fragment?) {
         if (fragment != null) {
@@ -188,7 +173,6 @@ abstract class LBaseActivity : SwipeBackActivity(), LRxSupport {
 
     /**
      * 移除fragment
-     * @param fragment
      */
     fun removeFragment(fragment: Fragment?) {
         if (fragment != null) {
@@ -198,6 +182,9 @@ abstract class LBaseActivity : SwipeBackActivity(), LRxSupport {
         }
     }
 
+    /**
+     * 添加订阅关系
+     */
     override fun addDisposable(disposable: Disposable) {
         compositeDisposable.add(disposable)
     }

@@ -10,7 +10,7 @@ import java.lang.reflect.Type
  */
 class LParameterizedTypeImpl(private val raw: Class<*>, args: Array<Type>? = null) : ParameterizedType {
 
-    private val args: Array<Type> = args ?: arrayOf<Type>()
+    private val args: Array<Type> = args ?: arrayOf()
 
     override fun getActualTypeArguments(): Array<Type> {
         return args

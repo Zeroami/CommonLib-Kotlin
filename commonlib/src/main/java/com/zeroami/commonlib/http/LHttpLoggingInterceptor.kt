@@ -66,8 +66,6 @@ class LHttpLoggingInterceptor : Interceptor {
 
     /**
      * 判断返回数据时候为文本类型
-     * @param buffer
-     * @return
      */
     private fun isPlaintext(buffer: Buffer): Boolean {
         try {
@@ -92,8 +90,6 @@ class LHttpLoggingInterceptor : Interceptor {
 
     /**
      * 判断字符串是否为json格式
-     * @param json
-     * @return
      */
     private fun isGoodJson(json: String): Boolean {
 

@@ -8,6 +8,7 @@ import com.zeroami.commonlib.CommonLib
 import okhttp3.ResponseBody
 import java.io.*
 
+
 /**
  * 文件工具类
  *
@@ -22,7 +23,6 @@ object LFileUtils {
 
     /**
      * 是否存在SDCard
-     * @return
      */
     fun checkSDCardAvailable(): Boolean {
         return Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
@@ -30,8 +30,6 @@ object LFileUtils {
 
     /**
      * 删除文件或递归删除文件夹
-     * @param path
-     * @return
      */
     fun deleteFile(path: String): Boolean {
         if (TextUtils.isEmpty(path)) {
@@ -63,9 +61,6 @@ object LFileUtils {
 
     /**
      * 重命名文件和文件夹
-     * @param file
-     * @param newFileName
-     * @return
      */
     fun renameFile(file: File, newFileName: String): Boolean {
         if (newFileName.matches(FILENAME_REGIX.toRegex())) {
@@ -85,8 +80,6 @@ object LFileUtils {
 
     /**
      * 获取文件大小，不存在返回-1
-     * @param path
-     * @return
      */
     fun getFileSize(path: String): Long {
         if (TextUtils.isEmpty(path)) {
@@ -100,8 +93,6 @@ object LFileUtils {
 
     /**
      * 获取文件大小，不存在返回-1
-     * @param file
-     * @return
      */
     fun getFileSize(file: File): Long {
         return if (file.exists() && file.isFile) file.length() else -1
@@ -109,8 +100,6 @@ object LFileUtils {
 
     /**
      * 获取文件名
-     * @param filePath
-     * @return
      */
     fun getFileName(filePath: String): String {
         if (TextUtils.isEmpty(filePath)) {
@@ -123,8 +112,6 @@ object LFileUtils {
 
     /**
      * 获取文件夹名称
-     * @param filePath
-     * @return
      */
     fun getFolderName(filePath: String): String {
         if (TextUtils.isEmpty(filePath)) {
@@ -137,8 +124,6 @@ object LFileUtils {
 
     /**
      * 获取扩展名
-     * @param filePath
-     * @return
      */
     fun getFileExtension(filePath: String): String {
         if (TextUtils.isEmpty(filePath)) {
@@ -183,8 +168,7 @@ object LFileUtils {
     }
 
     /**
-     * @param filePath
-     * @return
+     * 创建目录
      */
     fun makeDirs(filePath: String): Boolean {
         val folderName = getFolderName(filePath)
@@ -200,8 +184,6 @@ object LFileUtils {
 
     /**
      * 判断文件是否存在
-     * @param filePath
-     * @return
      */
     fun isFileExist(filePath: String): Boolean {
         if (TextUtils.isEmpty(filePath)) {
@@ -214,8 +196,6 @@ object LFileUtils {
 
     /**
      * 判断文件夹是否存在
-     * @param directoryPath
-     * @return
      */
     fun isFolderExist(directoryPath: String): Boolean {
         if (TextUtils.isEmpty(directoryPath)) {
@@ -229,8 +209,8 @@ object LFileUtils {
     /**
      * 写入网络响应结果到本地
      */
-    fun writeResponseBodyToDisk(body: ResponseBody, path:String): Boolean {
-        LFileUtils.makeDirs(path)
+    fun writeResponseBodyToDisk(body: ResponseBody, path: String): Boolean {
+        makeDirs(path)
         val file = File(path)
         var inputStream: InputStream? = null
         var outputStream: OutputStream? = null
@@ -272,7 +252,44 @@ object LFileUtils {
     /**
      * 扫描文件到媒体库
      */
-    fun scanFile(filePath:String){
+    fun scanFile(filePath: String) {
         CommonLib.ctx.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + filePath)))
+    }
+
+    /**
+     * 写入对象
+     */
+    fun writeObjectToFile(obj: Serializable, path: String) {
+        makeDirs(path)
+        val file = File(path)
+        val out: FileOutputStream
+        try {
+            out = FileOutputStream(file)
+            val objOut = ObjectOutputStream(out)
+            objOut.writeObject(obj)
+            objOut.flush()
+            objOut.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    /**
+     * 读取对象
+     */
+    fun readObjectFromFile(path: String): Any? {
+        var temp: Any? = null
+        val file = File(path)
+        val input: FileInputStream
+        try {
+            input = FileInputStream(file)
+            val objIn = ObjectInputStream(input)
+            temp = objIn.readObject()
+            objIn.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return temp
     }
 }

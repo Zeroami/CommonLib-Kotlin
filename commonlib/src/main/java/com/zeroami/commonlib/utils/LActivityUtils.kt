@@ -15,7 +15,6 @@ object LActivityUtils {
 
     /**
      * 将Activity加入Activity列表
-     * @param activity
      */
     fun addActivity(activity: Activity) {
         activityList.add(activity)
@@ -23,7 +22,6 @@ object LActivityUtils {
 
     /**
      * 将Activity移出Activity列表
-     * @param activity
      */
     fun removeActivity(activity: Activity) {
         activityList.remove(activity)
@@ -38,7 +36,6 @@ object LActivityUtils {
 
     /**
      * 获取栈顶Activity
-     * @return
      */
     val topActivity: Activity?
         get() {

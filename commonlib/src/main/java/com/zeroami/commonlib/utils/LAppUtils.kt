@@ -18,7 +18,6 @@ object LAppUtils {
 
     /**
      * 获取版本号
-     * @return
      */
     val versionCode: Int
         get() {
@@ -35,7 +34,6 @@ object LAppUtils {
 
     /**
      * 获取版本字符串
-     * @return
      */
     val versionName: String
         get() {
@@ -52,7 +50,6 @@ object LAppUtils {
 
     /**
      * 安装Apk
-     * @param file
      */
     fun installApk(file: File) {
         val intent = Intent()
@@ -65,7 +62,6 @@ object LAppUtils {
 
     /**
      * 安装Apk
-     * @param uri
      */
     fun installApk(uri: Uri) {
         val intent = Intent()
@@ -77,7 +73,6 @@ object LAppUtils {
 
     /**
      * 卸载apk
-     * @param packageName
      */
     fun uninstallApk(packageName: String) {
         val intent = Intent(Intent.ACTION_DELETE)
@@ -89,8 +84,6 @@ object LAppUtils {
 
     /**
      * 检测服务是否运行
-     * @param className 完整类名
-     * @return
      */
     fun isServiceRunning(className: String): Boolean {
         val servicesList = (CommonLib.ctx
@@ -103,7 +96,6 @@ object LAppUtils {
 
     /**
      * 判断应用是否处于后台状态
-     * @return
      */
     val isBackground: Boolean
         get() {
@@ -122,7 +114,6 @@ object LAppUtils {
 
     /**
      * 获取手机系统SDK版本
-     * @return
      */
     val sdkVersion: Int
         get() = android.os.Build.VERSION.SDK_INT

@@ -19,7 +19,6 @@ interface LMvpView {
 
     /**
      * 显示提示信息
-     * @param text 提示消息
      */
     fun showMessage(text: CharSequence)
 

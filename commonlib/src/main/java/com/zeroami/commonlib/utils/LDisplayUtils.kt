@@ -17,8 +17,6 @@ object LDisplayUtils {
 
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
-     * @param dpValue
-     * @return
      */
     fun dip2px(dpValue: Float): Int {
         val scale = CommonLib.ctx.resources.displayMetrics.density
@@ -27,8 +25,6 @@ object LDisplayUtils {
 
     /**
      * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
-     * @param pxValue
-     * @return
      */
     fun px2dip(pxValue: Float): Int {
         val scale = CommonLib.ctx.resources.displayMetrics.density
@@ -37,8 +33,6 @@ object LDisplayUtils {
 
     /**
      * 根据手机的分辨率从 px(像素) 的单位 转成为 sp
-     * @param pxValue
-     * @return
      */
     fun px2sp(pxValue: Float): Int {
         val fontScale = CommonLib.ctx.resources.displayMetrics.scaledDensity
@@ -47,8 +41,6 @@ object LDisplayUtils {
 
     /**
      * 根据手机的分辨率从 sp 的单位 转成为 px
-     * @param spValue
-     * @return
      */
     fun sp2px(spValue: Float): Int {
         val fontScale = CommonLib.ctx.resources.displayMetrics.scaledDensity
@@ -57,7 +49,6 @@ object LDisplayUtils {
 
     /**
      * 获取屏幕宽度
-     * @return
      */
     val screenWidth: Int
         get() {
@@ -69,7 +60,6 @@ object LDisplayUtils {
 
     /**
      * 获取屏幕高度
-     * @return
      */
     val screenHeight: Int
         get() {
@@ -81,7 +71,6 @@ object LDisplayUtils {
 
     /**
      * 获得状态栏的高度
-     * @return
      */
     val statusHeight: Int
         get() {
@@ -101,8 +90,6 @@ object LDisplayUtils {
 
     /**
      * 添加layout完成监听
-     * @param view
-     * @param callback
      */
     fun addLayoutListener(view: View, callback: (view: View) -> Unit) {
         view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {

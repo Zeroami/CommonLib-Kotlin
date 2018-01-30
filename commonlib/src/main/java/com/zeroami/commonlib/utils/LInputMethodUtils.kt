@@ -17,7 +17,6 @@ object LInputMethodUtils {
 
     /**
      * 显示输入法
-     * @param view
      */
     fun showInputMethod(view: View) {
         (CommonLib.ctx.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
@@ -25,7 +24,6 @@ object LInputMethodUtils {
 
     /**
      * 隐藏输入法
-     * @param view
      */
     fun hideInputMethod(view: View) {
         val imm = CommonLib.ctx.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -35,9 +33,19 @@ object LInputMethodUtils {
     }
 
     /**
+     * 隐藏输入法
+     */
+    fun hideInputMethod(activity: Activity) {
+        val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (activity.currentFocus != null) {
+            imm.hideSoftInputFromWindow(activity.currentFocus!!.windowToken, 0)
+        } else {
+            imm.hideSoftInputFromWindow(activity.findViewById(android.R.id.content).windowToken, 0)
+        }
+    }
+
+    /**
      * 点击空白隐藏输入法
-     * @param activity
-     * @param onTouchListener
      */
     fun hideInputMethodOnTouchSpace(activity: Activity, onTouchListener: View.OnTouchListener? = null) {
         activity.window.decorView.setOnTouchListener(View.OnTouchListener { v, event ->

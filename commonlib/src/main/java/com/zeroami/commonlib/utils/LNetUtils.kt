@@ -1,5 +1,6 @@
 package com.zeroami.commonlib.utils
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -13,6 +14,7 @@ import com.zeroami.commonlib.CommonLib
  *
  * @author Zeroami
  */
+@SuppressLint("MissingPermission")
 class LNetUtils {
     private val receiver: LNetworkBroadcastReceiver
     private val filter: IntentFilter
@@ -26,7 +28,6 @@ class LNetUtils {
 
     /**
      * 注册监听器
-     * @param listener
      */
     fun registerNetworkStateListener(listener: (isNetworkConnected: Boolean) -> Unit) {
         CommonLib.ctx.registerReceiver(receiver, filter)
@@ -57,7 +58,6 @@ class LNetUtils {
 
         /**
          * 判断是否有网络连接
-         * @return
          */
         val isNetworkConnected: Boolean
             get() {
@@ -70,7 +70,6 @@ class LNetUtils {
 
         /**
          * 判断WIFI连接是否可用
-         * @return
          */
         val isWifiConnected: Boolean
             get() {
@@ -82,7 +81,6 @@ class LNetUtils {
 
         /**
          * 判断MOBILE网络是否可用
-         * @return
          */
         val isMobileConnected: Boolean
             get() {

@@ -16,14 +16,10 @@ object LPollingUtils {
 
     /**
      * 开启轮询服务
-     * @param context
-     * @param interval 时间间隔，单位为秒
-     * @param cls
-     * @param action
-     * @param isWakeup
      */
-    @JvmOverloads fun startPollingService(context: Context, interval: Int,
-                                          cls: Class<*>, action: String? = null, isWakeup: Boolean = true) {
+    @JvmOverloads
+    fun startPollingService(context: Context, intervalMillis: Long,
+                            cls: Class<*>, action: String? = null, isWakeup: Boolean = true) {
         val manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, cls)
         if (!TextUtils.isEmpty(action)) {
@@ -34,17 +30,15 @@ object LPollingUtils {
         val triggerAtTime = System.currentTimeMillis()
         val type = if (isWakeup) AlarmManager.RTC_WAKEUP else AlarmManager.RTC
         manager.setRepeating(type, triggerAtTime,
-                (interval * 1000).toLong(), pendingIntent)
+                intervalMillis, pendingIntent)
     }
 
     /**
      * 停止轮询服务
-     * @param context
-     * @param cls
-     * @param action
      */
-    @JvmOverloads fun stopPollingService(context: Context, cls: Class<*>,
-                                         action: String? = null) {
+    @JvmOverloads
+    fun stopPollingService(context: Context, cls: Class<*>,
+                           action: String? = null) {
         val manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, cls)
         if (!TextUtils.isEmpty(action)) {

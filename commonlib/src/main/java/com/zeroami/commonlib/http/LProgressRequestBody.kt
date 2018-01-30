@@ -1,9 +1,14 @@
 package com.zeroami.commonlib.http
 
+import java.io.IOException
+
 import okhttp3.MediaType
 import okhttp3.RequestBody
-import okio.*
-import java.io.IOException
+import okio.Buffer
+import okio.BufferedSink
+import okio.ForwardingSink
+import okio.Okio
+import okio.Sink
 
 /**
  * 带进度信息的RequestBody
@@ -19,7 +24,6 @@ class LProgressRequestBody(
 
     /**
      * 重写调用实际的响应体的contentType
-     * @return MediaType
      */
     override fun contentType(): MediaType {
         return requestBody.contentType()
@@ -27,9 +31,6 @@ class LProgressRequestBody(
 
     /**
      * 重写调用实际的响应体的contentLength
-     * @return contentLength
-     * *
-     * @throws IOException 异常
      */
     @Throws(IOException::class)
     override fun contentLength(): Long {
@@ -38,9 +39,6 @@ class LProgressRequestBody(
 
     /**
      * 重写进行写入
-     * @param sink BufferedSink
-     * *
-     * @throws IOException 异常
      */
     @Throws(IOException::class)
     override fun writeTo(sink: BufferedSink) {
@@ -54,9 +52,6 @@ class LProgressRequestBody(
 
     /**
      * 写入，回调进度接口
-     * @param sink Sink
-     * *
-     * @return Sink
      */
     private fun sink(sink: Sink): Sink {
         return object : ForwardingSink(sink) {

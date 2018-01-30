@@ -20,10 +20,6 @@ object LBitmapUtils {
 
     /**
      * 图片压缩处理（使用Options的方法）
-     * @param options
-     * @param reqWidth
-     * @param reqHeight
-     * @return
      */
     fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): BitmapFactory.Options {
         // 源图片的高度和宽度
@@ -43,10 +39,6 @@ object LBitmapUtils {
 
     /**
      * 从资源中获取Bitmap
-     * @param resId
-     * @param reqWidth
-     * @param reqHeight
-     * @return
      */
     fun getBitmapFromResource(resId: Int, reqWidth: Int, reqHeight: Int): Bitmap {
         var options = BitmapFactory.Options()
@@ -60,10 +52,6 @@ object LBitmapUtils {
 
     /**
      * 从文件中获取Bitmap
-     * @param path
-     * @param reqWidth
-     * @param reqHeight
-     * @return
      */
     fun getBitmapFromFile(path: String, reqWidth: Int, reqHeight: Int): Bitmap {
         var options = BitmapFactory.Options()
@@ -76,10 +64,6 @@ object LBitmapUtils {
 
     /**
      * 从数组中获取Bitmap
-     * @param data
-     * @param reqWidth
-     * @param reqHeight
-     * @return
      */
     fun getBitmapFromByteArray(data: ByteArray, reqWidth: Int, reqHeight: Int): Bitmap {
         var options = BitmapFactory.Options()
@@ -92,8 +76,6 @@ object LBitmapUtils {
 
     /**
      * 把bitmap转化为bytes
-     * @param bitmap
-     * @return
      */
     fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
         val baos = ByteArrayOutputStream()
@@ -103,8 +85,6 @@ object LBitmapUtils {
 
     /**
      * 从View获取Bitmap
-     * @param view view
-     * @return
      */
     fun getBitmapFromView(view: View): Bitmap {
         val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
@@ -116,8 +96,6 @@ object LBitmapUtils {
 
     /**
      * 将Drawable转化为Bitmap
-     * @param drawable
-     * @return
      */
     fun getBitmapFromDrawable(drawable: Drawable): Bitmap {
         val width = drawable.intrinsicWidth
@@ -136,9 +114,6 @@ object LBitmapUtils {
 
     /**
      * 获取圆角Bitmap
-     * @param bitmap
-     * @param radius
-     * @return
      */
     fun getRoundBitmap(bitmap: Bitmap, radius: Float): Bitmap {
         val output = Bitmap.createBitmap(bitmap.width,
@@ -157,8 +132,6 @@ object LBitmapUtils {
 
     /**
      * 获取圆形Bitmap
-     * @param bitmap
-     * @return
      */
     fun getCircleBitmap(bitmap: Bitmap): Bitmap {
         val width = Math.min(bitmap.width, bitmap.height)
@@ -176,9 +149,6 @@ object LBitmapUtils {
 
     /**
      * 压缩图片大小
-     * @param bitmap
-     * @param maxKb     压缩的图片大小的最大值
-     * @return
      */
     fun compressImage(bitmap: Bitmap, maxKb: Int): Bitmap {
         val baos = ByteArrayOutputStream()
@@ -199,8 +169,6 @@ object LBitmapUtils {
 
     /**
      * 压缩图片大小
-     * @param bitmap
-     * @param maxKb     压缩的图片大小的最大值
      */
     fun compressImageToFile(bitmap: Bitmap, maxKb: Int,filePath:String){
         val baos = ByteArrayOutputStream()
@@ -219,8 +187,6 @@ object LBitmapUtils {
 
     /**
      * 将彩色图转换为灰度图
-     * @param bitmap
-     * @return
      */
     fun convertGrayBitmap(bitmap: Bitmap): Bitmap {
         val width = bitmap.width // 获取位图的宽
@@ -250,11 +216,6 @@ object LBitmapUtils {
 
     /**
      * 保存图片到本地
-     * @param bitmap
-     * @param dir
-     * @param filename
-     * @param isScan 是否插入系统媒体库
-     * @return
      */
     fun saveImage(bitmap: Bitmap, dir: String, filename: String, isScan: Boolean): String {
         val path = File(dir)
@@ -309,8 +270,6 @@ object LBitmapUtils {
 
     /**
      * 获取当前屏幕截图，包含状态栏，但是获取不到状态栏内容
-     * @param activity
-     * @return
      */
     fun takeScreenShot(activity: Activity): Bitmap {
         //通过window的源码可以看出：检索顶层窗口的装饰视图，可以作为一个窗口添加到窗口管理器
@@ -332,8 +291,6 @@ object LBitmapUtils {
 
     /**
      * 获取当前屏幕截图，不包含状态栏
-     * @param activity
-     * @return
      */
     fun takeScreenShotWithoutStatusBar(activity: Activity): Bitmap {
         //通过window的源码可以看出：检索顶层窗口的装饰视图，可以作为一个窗口添加到窗口管理器

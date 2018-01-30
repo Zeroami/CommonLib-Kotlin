@@ -23,9 +23,6 @@ object LCircularAnimUtils {
 
     /**
      * 向四周伸张，直到完成显示。
-     * @param myView
-     * @param startRadius
-     * @param durationMills
      */
     @SuppressLint("NewApi")
     fun show(myView: View, startRadius: Float, durationMills: Long) {
@@ -51,9 +48,6 @@ object LCircularAnimUtils {
 
     /**
      * 由满向中间收缩，直到隐藏。
-     * @param myView
-     * @param endRadius
-     * @param durationMills
      */
     @SuppressLint("NewApi")
     fun hide(myView: View, endRadius: Float, durationMills: Long) {
@@ -84,13 +78,6 @@ object LCircularAnimUtils {
 
     /**
      * 从指定View开始向四周伸张(伸张颜色或图片为colorOrImageRes), 然后进入另一个Activity,返回至 @thisActivity 后显示收缩动画。
-     * @param thisActivity
-     * @param intent
-     * @param requestCode
-     * @param bundle
-     * @param triggerView
-     * @param colorOrImageRes
-     * @param durationMills
      */
     @SuppressLint("NewApi")
     fun startActivityForResult(

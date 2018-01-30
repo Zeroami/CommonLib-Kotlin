@@ -1,5 +1,7 @@
 package com.zeroami.commonlib.http
 
+import java.io.IOException
+
 import okhttp3.MediaType
 import okhttp3.Response
 import okhttp3.ResponseBody
@@ -7,7 +9,6 @@ import okio.Buffer
 import okio.BufferedSource
 import okio.ForwardingSource
 import okio.Okio
-import java.io.IOException
 
 /**
  * 带进度信息的ResponseBody

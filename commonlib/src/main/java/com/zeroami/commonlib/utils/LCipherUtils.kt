@@ -13,8 +13,6 @@ object LCipherUtils {
 
     /**
      * MD5加密
-     * @param string
-     * @return
      */
     fun md5(string: String): String {
         try {

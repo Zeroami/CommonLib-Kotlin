@@ -18,7 +18,6 @@ abstract class LBaseMvpFragment<out P : LMvpPresenter<*>> : LBaseFragment(), LMv
 
     /**
      * 获取MvpPresenter
-     * @return
      */
     protected val mvpPresenter: P by object : ReadOnlyProperty<Any?, P> {
         override fun getValue(thisRef: Any?, property: KProperty<*>): P {
@@ -30,7 +29,6 @@ abstract class LBaseMvpFragment<out P : LMvpPresenter<*>> : LBaseFragment(), LMv
 
     /**
      * 获取SwipeRefreshLayout
-     * @return
      */
     protected var swipeRefreshLayout: SwipeRefreshLayout? = null
         private set
@@ -52,8 +50,6 @@ abstract class LBaseMvpFragment<out P : LMvpPresenter<*>> : LBaseFragment(), LMv
 
     /**
      * 创建Presenter
-
-     * @return
      */
     protected abstract fun createPresenter(): P?
 
@@ -74,10 +70,11 @@ abstract class LBaseMvpFragment<out P : LMvpPresenter<*>> : LBaseFragment(), LMv
     }
 
     override fun handleArguments(arguments: Bundle) {
-        presenter?.doHandleExtras(arguments)
+        presenter?.handleExtras(arguments)
     }
 
     override fun onInitialized() {
         presenter?.doViewInitialized()
+        presenter?.subscribeEvent()
     }
 }

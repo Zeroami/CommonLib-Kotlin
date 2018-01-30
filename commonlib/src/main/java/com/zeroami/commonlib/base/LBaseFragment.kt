@@ -1,14 +1,16 @@
 package com.zeroami.commonlib.base
 
-import android.app.Activity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.zeroami.commonlib.R
 import com.zeroami.commonlib.mvp.LRxSupport
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import org.jetbrains.anko.find
+
 
 /**
  * BaseFragment，完成共有操作，定义操作流程
@@ -19,7 +21,6 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
 
     /**
      * 获取布局View
-     * @return
      */
     protected lateinit var layoutView: View
         private set
@@ -28,31 +29,70 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
 
     /**
      * View是否已经被销毁
-     * @return
      */
     protected var isViewDestroyed = false
         private set
 
-
-    override fun onAttach(activity: Activity?) {
-        super.onAttach(activity)
-    }
+    private var isInit = false
+    private var savedInstanceState: Bundle? = null
+    private var isAfterOnCreateView = false
+    private lateinit var inflater: LayoutInflater
+    private var container: ViewGroup? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             handleArguments(arguments)
         }
-        subscribeRxBus()
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        layoutView = inflater!!.inflate(layoutId, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        this.inflater = inflater
+        this.container = container
+        // 判断是否懒加载
+        if (isLazyLoad) {
+            // 处于完全可见、没被初始化的状态
+            if (userVisibleHint && !isInit) {
+                this.savedInstanceState = savedInstanceState
+                layoutView = inflater.inflate(layoutId, container, false)
+                isInit = true
+            } else {
+                layoutView = inflater.inflate(lazyLoadLayoutId, container, false)
+            }
+        } else {
+            // 不需要懒加载
+            layoutView = inflater.inflate(layoutId, container, false)
+            isInit = true
+        }
+        isAfterOnCreateView = true
         return layoutView
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        // 一旦isVisibleToUser==true即可对真正需要的显示内容进行加载
+        if (isLazyLoad && isAfterOnCreateView) {
+            // 可见，但还没被初始化
+            if (isVisibleToUser && !isInit) {
+                layoutView.find<ViewGroup>(R.id.flLazyLoadContainer).let {
+                    it.removeAllViews()
+                    layoutView = inflater.inflate(layoutId, it, false)
+                    isInit = true
+                    it.addView(layoutView)
+                    contentViewCreated(savedInstanceState)
+                }
+            }
+        }
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (!isLazyLoad || userVisibleHint) {
+            contentViewCreated(savedInstanceState)
+        }
+    }
+
+    private fun contentViewCreated(savedInstanceState: Bundle?) {
         onViewCreated()
         //避免重复添加Fragment
         if (childFragmentManager.fragments == null || childFragmentManager.fragments.isEmpty()) {
@@ -63,31 +103,36 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
         }
         isViewDestroyed = false
         initialize(savedInstanceState)
+        subscribeEvent()
         onInitialized()
     }
 
     override fun onDestroyView() {
         isViewDestroyed = true
-        super.onDestroyView()
-    }
-
-    override fun onDestroy() {
         compositeDisposable.clear()
-        super.onDestroy()
+        super.onDestroyView()
     }
 
     /**
      * 获取布局文件id
-     * @return
      */
     protected abstract val layoutId: Int
 
     /**
      * 获取Fragment容器id
-     * @return
      */
-    protected open val fragmentContainerId: Int
-        get() = 0
+    protected open val fragmentContainerId: Int = 0
+
+
+    /**
+     * 是否懒加载
+     */
+    protected open val isLazyLoad: Boolean = false
+
+    /**
+     * 获取LazyLoadLayoutId
+     */
+    protected open val lazyLoadLayoutId: Int = R.layout.fragment_lazy_load
 
     /**
      * setContentView完成
@@ -102,14 +147,13 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
 
     /**
      * 处理携带的数据
-     * @param arguments
      */
     protected open fun handleArguments(arguments: Bundle) {}
 
     /**
-     * 订阅RxBus
+     * 订阅事件
      */
-    protected open fun subscribeRxBus() {}
+    protected open fun subscribeEvent() {}
 
     /**
      * initialize完成
@@ -118,14 +162,12 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
 
     /**
      * 获取显示的第一个Fragment
-     * @return
      */
     protected open fun getFirstFragment(): Fragment? = null
 
 
     /**
      * 添加fragment
-     * @param fragment
      */
     fun addFragment(fragment: Fragment?, isAddToBackStack: Boolean) {
         if (fragment != null) {
@@ -140,7 +182,6 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
 
     /**
      * 替换fragment
-     * @param fragment
      */
     fun replaceFragment(fragment: Fragment?, isAddToBackStack: Boolean) {
         if (fragment != null) {
@@ -155,7 +196,6 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
 
     /**
      * 显示fragment
-     * @param fragment
      */
     fun showFragment(fragment: Fragment?) {
         if (fragment != null) {
@@ -167,7 +207,6 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
 
     /**
      * 隐藏fragment
-     * @param fragment
      */
     fun hideFragment(fragment: Fragment?) {
         if (fragment != null) {
@@ -179,7 +218,6 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
 
     /**
      * 移除fragment
-     * @param fragment
      */
     fun removeFragment(fragment: Fragment?) {
         if (fragment != null) {
@@ -189,6 +227,9 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
         }
     }
 
+    /**
+     * 添加订阅关系
+     */
     override fun addDisposable(disposable: Disposable) {
         compositeDisposable.add(disposable)
     }

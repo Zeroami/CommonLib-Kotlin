@@ -10,8 +10,7 @@ import io.reactivex.disposables.Disposable
 interface LRxSupport {
 
     /**
-     * 添加一个订阅
-     * @param disposable
+     * 添加订阅关系
      */
     fun addDisposable(disposable: Disposable)
 }

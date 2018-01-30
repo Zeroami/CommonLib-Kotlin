@@ -29,11 +29,10 @@ object CommonLib {
     }
 
     val TAG = "TAG"
-    var isDebug: Boolean = false
+    var isDebug: Boolean = true
 
     /**
      * 初始化Context，使CommonLib正常工作
-     * @param context
      */
     fun initialize(context: Context) {
         ctx = context
@@ -42,8 +41,6 @@ object CommonLib {
 
     /**
      * 日志开关
-     * @param isEnableLog
-     * @param tag
      */
     fun setEnableLog(isEnableLog: Boolean, tag: String = TAG) {
         if (isEnableLog) {
