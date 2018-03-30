@@ -42,7 +42,7 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-            handleArguments(arguments)
+            handleExtras(arguments)
         }
     }
 
@@ -148,7 +148,7 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
     /**
      * 处理携带的数据
      */
-    protected open fun handleArguments(arguments: Bundle) {}
+    protected open fun handleExtras(extras: Bundle) {}
 
     /**
      * 订阅事件

@@ -58,26 +58,6 @@ object LFileUtils {
         return file.delete()
     }
 
-
-    /**
-     * 重命名文件和文件夹
-     */
-    fun renameFile(file: File, newFileName: String): Boolean {
-        if (newFileName.matches(FILENAME_REGIX.toRegex())) {
-            var newFile: File? = null
-            if (file.isDirectory) {
-                newFile = File(file.parentFile, newFileName)
-            } else {
-                val temp = newFileName + file.name.substring(file.name.lastIndexOf('.'))
-                newFile = File(file.parentFile, temp)
-            }
-            if (file.renameTo(newFile)) {
-                return true
-            }
-        }
-        return false
-    }
-
     /**
      * 获取文件大小，不存在返回-1
      */
@@ -170,7 +150,7 @@ object LFileUtils {
     /**
      * 创建目录
      */
-    fun makeDirs(filePath: String): Boolean {
+    fun mkdirs(filePath: String): Boolean {
         val folderName = getFolderName(filePath)
         if (TextUtils.isEmpty(folderName)) {
             return false
@@ -210,7 +190,7 @@ object LFileUtils {
      * 写入网络响应结果到本地
      */
     fun writeResponseBodyToDisk(body: ResponseBody, path: String): Boolean {
-        makeDirs(path)
+        mkdirs(path)
         val file = File(path)
         var inputStream: InputStream? = null
         var outputStream: OutputStream? = null
@@ -260,7 +240,7 @@ object LFileUtils {
      * 写入对象
      */
     fun writeObjectToFile(obj: Serializable, path: String) {
-        makeDirs(path)
+        mkdirs(path)
         val file = File(path)
         val out: FileOutputStream
         try {

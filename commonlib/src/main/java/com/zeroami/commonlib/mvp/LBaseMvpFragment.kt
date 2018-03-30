@@ -69,8 +69,8 @@ abstract class LBaseMvpFragment<out P : LMvpPresenter<*>> : LBaseFragment(), LMv
         LT.show(text)
     }
 
-    override fun handleArguments(arguments: Bundle) {
-        presenter?.handleExtras(arguments)
+    override fun handleExtras(extras: Bundle) {
+        presenter?.handleExtras(extras)
     }
 
     override fun onInitialized() {

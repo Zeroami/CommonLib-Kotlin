@@ -2,11 +2,8 @@ package com.zeroami.commonlib.utils
 
 import android.app.ActivityManager
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import com.zeroami.commonlib.CommonLib
-import java.io.File
 
 /**
  * 描述：App工具类，获取App相关信息
@@ -49,68 +46,35 @@ object LAppUtils {
         }
 
     /**
-     * 安装Apk
-     */
-    fun installApk(file: File) {
-        val intent = Intent()
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.action = Intent.ACTION_VIEW
-        intent.setDataAndType(Uri.fromFile(file),
-                "application/vnd.android.package-archive")
-        CommonLib.ctx.startActivity(intent)
-    }
-
-    /**
-     * 安装Apk
-     */
-    fun installApk(uri: Uri) {
-        val intent = Intent()
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.action = Intent.ACTION_VIEW
-        intent.setDataAndType(uri, "application/vnd.android.package-archive")
-        CommonLib.ctx.startActivity(intent)
-    }
-
-    /**
-     * 卸载apk
-     */
-    fun uninstallApk(packageName: String) {
-        val intent = Intent(Intent.ACTION_DELETE)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        val packageURI = Uri.parse("package:" + packageName)
-        intent.data = packageURI
-        CommonLib.ctx.startActivity(intent)
-    }
-
-    /**
      * 检测服务是否运行
      */
     fun isServiceRunning(className: String): Boolean {
-        val servicesList = (CommonLib.ctx
+        val services = (CommonLib.ctx
                 .getSystemService(Context.ACTIVITY_SERVICE)
                 as ActivityManager)
                 .getRunningServices(Integer.MAX_VALUE)
-        val isRunning = servicesList.any { className == it.service.className }
-        return isRunning
+        return services.any { className == it.service.className }
     }
 
     /**
      * 判断应用是否处于后台状态
      */
-    val isBackground: Boolean
-        get() {
-            val tasks = (CommonLib.ctx
-                    .getSystemService(Context.ACTIVITY_SERVICE)
-                    as ActivityManager).getRunningTasks(1)
-            if (!tasks.isEmpty()) {
-                val topActivity = tasks[0].topActivity
-                if (topActivity.packageName != CommonLib.ctx.packageName) {
-                    return true
-                }
-            }
-            return false
-        }
+    fun isBackground(): Boolean {
+        val tasks = (CommonLib.ctx
+                .getSystemService(Context.ACTIVITY_SERVICE)
+                as ActivityManager).getRunningTasks(1)
+        return tasks.none { it.topActivity.packageName == CommonLib.ctx.packageName }
+    }
 
+    /**
+     * 判断App进程是否存活
+     */
+    fun isAppAlive(): Boolean {
+        val processes = (CommonLib.ctx
+                .getSystemService(Context.ACTIVITY_SERVICE)
+                as ActivityManager).runningAppProcesses
+        return processes.any { it.processName == CommonLib.ctx.packageName }
+    }
 
     /**
      * 获取手机系统SDK版本

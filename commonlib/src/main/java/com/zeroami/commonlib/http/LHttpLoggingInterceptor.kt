@@ -45,10 +45,11 @@ class LHttpLoggingInterceptor : Interceptor {
         try {
             val body = response.body()
             val source = body.source()
-            source.request(java.lang.Long.MAX_VALUE)
+            source.request(1024 * 1024)
             val buffer = source.buffer().clone()
             if (isPlaintext(buffer)) {
-                responseBody = buffer.readString(Charset.forName("UTF-8")) + "\n\n" + body.contentLength() + " byte body"
+                responseBody = buffer.readString(Charset.forName("UTF-8"))
+                responseBody += "\n\n" + (if (body.contentLength().toInt() == -1) responseBody.length else body.contentLength()) + " byte body"
             } else {
                 responseBody = "binary " + body.contentLength() + " byte body"
             }

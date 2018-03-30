@@ -6,7 +6,10 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
+import org.jetbrains.anko.forEachChild
 
 fun TextView.addTextChangedListener(l: (text: String) -> Unit) {
     this.addTextChangedListener(object : TextWatcher {
@@ -52,3 +55,13 @@ fun runFragment(activity: FragmentActivity, fragment: Fragment) {
             .commit()
     activity.supportFragmentManager.executePendingTransactions()
 }
+
+fun ViewGroup.listChilds(): List<View> {
+    val list = ArrayList<View>()
+    this.forEachChild {
+        list.add(it)
+    }
+    return list
+}
+
+fun <T> Collection<T>?.isNotNullAndEmpty(): Boolean = this != null && this.isNotEmpty()

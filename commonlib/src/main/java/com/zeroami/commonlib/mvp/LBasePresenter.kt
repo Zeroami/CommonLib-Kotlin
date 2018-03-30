@@ -64,10 +64,10 @@ abstract class LBasePresenter<V : LMvpView>(view: V) : LMvpPresenter<V>, LRxSupp
     private fun createEmptyMvpView() {
         emptyMvpView = Proxy.newProxyInstance(javaClass.classLoader, mvpView.javaClass.interfaces, object : InvocationHandler {
             @Throws(Throwable::class)
-            override fun invoke(o: Any, method: Method, args: Array<Any>): Any? {
-                LL.i("EmptyMvpView的%s方法被调用", method.name)
-                if (method.declaringClass == Any::class.java) {
-                    return method.invoke(this, *args)
+            override fun invoke(o: Any?, method: Method?, args: Array<Any>?): Any? {
+                LL.i("EmptyMvpView的%s方法被调用", method?.name ?: "")
+                if (method?.declaringClass == Any::class.java) {
+                    return method.invoke(this, *args!!)
                 }
                 return null
             }
