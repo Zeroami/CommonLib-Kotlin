@@ -85,12 +85,15 @@ object LRxBus {
         post(NULL, action)
     }
 
-    fun <T> subscribeSticky(eventType: Class<T>, block: (T) -> Unit): Disposable {
+    fun <T> subscribeSticky(eventType: Class<T>, isAutoRemove: Boolean, block: (T) -> Unit): Disposable {
         synchronized(mStickyEventMap) {
             val event = mStickyEventMap[eventType]
             if (event != null) {
                 try {
                     block(eventType.cast(event))
+                    if (isAutoRemove) {
+                        mStickyEventMap.remove(eventType)
+                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -99,12 +102,15 @@ object LRxBus {
         }
     }
 
-    fun <T> subscribeSticky(eventType: Class<T>, action: String, block: (T) -> Unit): Disposable {
+    fun <T> subscribeSticky(eventType: Class<T>, action: String, isAutoRemove: Boolean, block: (T) -> Unit): Disposable {
         synchronized(mStickyActionEventMap) {
             val event = mStickyActionEventMap[eventType.toString() + action]
             if (event != null) {
                 try {
                     block(eventType.cast(event))
+                    if (isAutoRemove) {
+                        mStickyActionEventMap.remove(eventType.toString() + action)
+                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -113,8 +119,8 @@ object LRxBus {
         }
     }
 
-    fun subscribeStickyAction(action: String, block: () -> Unit): Disposable {
-        return subscribeSticky(NULL_TYPE, action, { block() })
+    fun subscribeStickyAction(action: String, isAutoRemove: Boolean, block: () -> Unit): Disposable {
+        return subscribeSticky(NULL_TYPE, action, isAutoRemove, { block() })
     }
 
     fun <T> getStickyEvent(eventType: Class<T>): T {

@@ -16,8 +16,6 @@ import java.io.*
  */
 object LFileUtils {
 
-    private val FILENAME_REGIX = "^[^\\/?\"*:<>\\]{1,255}$"
-
     val FILE_EXTENSION_SEPARATOR = "."
 
 
