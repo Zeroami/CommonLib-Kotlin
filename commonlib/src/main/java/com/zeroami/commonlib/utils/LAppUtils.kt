@@ -53,27 +53,27 @@ object LAppUtils {
                 .getSystemService(Context.ACTIVITY_SERVICE)
                 as ActivityManager)
                 .getRunningServices(Integer.MAX_VALUE)
-        return services.any { className == it.service.className }
+        return services.any { it.service.className == className }
     }
 
     /**
      * 判断应用是否处于后台状态
      */
-    fun isBackground(): Boolean {
+    fun isBackground(packageName: String = CommonLib.ctx.packageName): Boolean {
         val tasks = (CommonLib.ctx
                 .getSystemService(Context.ACTIVITY_SERVICE)
                 as ActivityManager).getRunningTasks(1)
-        return tasks.none { it.topActivity.packageName == CommonLib.ctx.packageName }
+        return tasks.none { it.topActivity.packageName == packageName }
     }
 
     /**
      * 判断App进程是否存活
      */
-    fun isAppAlive(): Boolean {
+    fun isAppAlive(packageName: String = CommonLib.ctx.packageName): Boolean {
         val processes = (CommonLib.ctx
                 .getSystemService(Context.ACTIVITY_SERVICE)
                 as ActivityManager).runningAppProcesses
-        return processes.any { it.processName == CommonLib.ctx.packageName }
+        return processes.any { it.processName == packageName }
     }
 
     /**

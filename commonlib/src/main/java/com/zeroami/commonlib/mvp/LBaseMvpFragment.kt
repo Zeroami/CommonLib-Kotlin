@@ -70,10 +70,12 @@ abstract class LBaseMvpFragment<out P : LMvpPresenter<*>> : LBaseFragment(), LMv
     }
 
     override fun handleExtras(extras: Bundle) {
+        super.handleExtras(extras)
         presenter?.handleExtras(extras)
     }
 
     override fun onInitialized() {
+        super.onInitialized()
         presenter?.doViewInitialized()
         presenter?.subscribeEvent()
     }
