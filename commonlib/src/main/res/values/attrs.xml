@@ -1,27 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!--圆角图片控件-->
-    <declare-styleable name="LRoundImageView">
-        <attr name="border_width" format="dimension" />
-        <attr name="border_color" format="color" />
-        <attr name="radius" format="dimension" />
-    </declare-styleable>
-
-    <!--进度条-->
-    <declare-styleable name="LCircleProgressView">
-        <attr name="progressIndeterminate" format="boolean" />
-        <attr name="barColor" format="color" />
-        <attr name="rimColor" format="color" />
-        <attr name="rimWidth" format="dimension" />
-        <attr name="spinSpeed" format="float" />
-        <attr name="barSpinCycleTime" format="integer" />
-        <attr name="circleRadius" format="dimension" />
-        <attr name="fillRadius" format="boolean" />
-        <attr name="barWidth" format="dimension" />
-        <attr name="linearProgress" format="boolean" />
-    </declare-styleable>
-
     <!-- 侧滑返回Layout-->
     <declare-styleable name="SwipeBackLayout">
         <attr name="edge_size" format="dimension" />

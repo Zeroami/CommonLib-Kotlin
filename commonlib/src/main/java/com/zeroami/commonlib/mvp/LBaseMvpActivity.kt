@@ -69,6 +69,10 @@ abstract class LBaseMvpActivity<out P : LMvpPresenter<*>> : LBaseActivity(), LMv
         LT.show(text)
     }
 
+    override fun finishCurrent() {
+        finish()
+    }
+
     override fun handleExtras(extras: Bundle) {
         super.handleExtras(extras)
         presenter?.handleExtras(extras)
@@ -79,5 +83,4 @@ abstract class LBaseMvpActivity<out P : LMvpPresenter<*>> : LBaseActivity(), LMv
         presenter?.doViewInitialized()
         presenter?.subscribeEvent()
     }
-
 }

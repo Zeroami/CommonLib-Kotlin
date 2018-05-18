@@ -26,4 +26,9 @@ interface LMvpView {
      * 显示错误
      */
     fun showError(text: CharSequence = "出错了～")
+
+    /**
+     * 退出当前界面
+     */
+    fun finishCurrent()
 }

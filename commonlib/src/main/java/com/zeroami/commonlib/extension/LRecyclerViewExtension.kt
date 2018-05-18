@@ -50,7 +50,6 @@ fun RecyclerView.moveToPosition(position: Int, offset: Int = 0) {
 }
 
 
-private var isAdded = false
 private var move = false
 private var index = 0
 
@@ -67,20 +66,14 @@ private var onScrollListener = object : RecyclerView.OnScrollListener() {
 
         }
     }
-
-    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-        super.onScrolled(recyclerView, dx, dy)
-    }
 }
 
 fun RecyclerView.smoothMoveToPosition(position: Int) {
     if (position < 0) return
     if (this.layoutManager is LinearLayoutManager) {
         index = position
-        if (!isAdded) {
-            this.addOnScrollListener(onScrollListener)
-            isAdded = true
-        }
+        this.removeOnScrollListener(onScrollListener)
+        this.addOnScrollListener(onScrollListener)
         val manager = this.layoutManager as LinearLayoutManager
         val firstItem = manager.findFirstVisibleItemPosition()
         val lastItem = manager.findLastVisibleItemPosition()

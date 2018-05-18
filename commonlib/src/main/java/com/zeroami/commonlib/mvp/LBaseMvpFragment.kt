@@ -69,6 +69,10 @@ abstract class LBaseMvpFragment<out P : LMvpPresenter<*>> : LBaseFragment(), LMv
         LT.show(text)
     }
 
+    override fun finishCurrent() {
+        activity.finish()
+    }
+
     override fun handleExtras(extras: Bundle) {
         super.handleExtras(extras)
         presenter?.handleExtras(extras)
