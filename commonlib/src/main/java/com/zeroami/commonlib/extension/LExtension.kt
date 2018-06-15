@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import org.jetbrains.anko.forEachChild
+import java.util.concurrent.Executors
+import java.util.concurrent.Future
 
 fun TextView.addTextChangedListener(l: (text: String) -> Unit) {
     this.addTextChangedListener(object : TextWatcher {
@@ -41,8 +43,20 @@ fun uiThread(block: () -> Unit) {
     handler.post(block)
 }
 
-fun async(block: () -> Unit) {
-    Thread(block).start()
+fun async(block: () -> Unit): Future<Unit> {
+    return BackgroundExecutor.submit { block() }
+}
+
+internal object BackgroundExecutor {
+    private val executor by lazy { Executors.newScheduledThreadPool(2 * Runtime.getRuntime().availableProcessors()) }
+
+    fun execute(task: () -> Unit): Future<Unit> {
+        return executor.submit<Unit> { task() }
+    }
+
+    fun <T> submit(task: () -> T): Future<T> {
+        return executor.submit(task)
+    }
 }
 
 fun runFragment(activity: FragmentActivity, fragment: Fragment) {

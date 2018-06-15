@@ -1,18 +1,19 @@
 package com.zeroami.commonlib.rx.rxbus
 
+import com.zeroami.commonlib.extension.runOnHandler
 import io.reactivex.disposables.Disposable
 
-fun post(event: Any) = LRxBus.post(event)
+fun post(event: Any) = runOnHandler { LRxBus.post(event) }
 
-fun post(event: Any, action: String) = LRxBus.post(event, action)
+fun post(event: Any, action: String) = runOnHandler { LRxBus.post(event, action) }
 
-fun postAction(action: String) = LRxBus.postAction(action)
+fun postAction(action: String) = runOnHandler { LRxBus.postAction(action) }
 
-fun postSticky(event: Any) = LRxBus.postSticky(event)
+fun postSticky(event: Any) = runOnHandler { LRxBus.postSticky(event) }
 
-fun postSticky(event: Any, action: String) = LRxBus.postSticky(event, action)
+fun postSticky(event: Any, action: String) = runOnHandler { LRxBus.postSticky(event, action) }
 
-fun postStickyAction(action: String) = LRxBus.postStickyAction(action)
+fun postStickyAction(action: String) = runOnHandler { LRxBus.postStickyAction(action) }
 
 inline fun <reified T> subscribe(noinline block: (T) -> Unit): Disposable = LRxBus.subscribe(T::class.java, block)
 

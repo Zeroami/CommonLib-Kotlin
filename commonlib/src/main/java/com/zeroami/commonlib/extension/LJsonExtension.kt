@@ -5,16 +5,17 @@ import com.google.gson.reflect.TypeToken
 import org.json.JSONArray
 import org.json.JSONObject
 
+val GSON by lazy { Gson() }
 
-inline fun <reified T : Any> jsonToObject(json: String): T {
-    return Gson().fromJson(json, object : TypeToken<T>() {}.type)
+inline fun <reified T> jsonToObject(json: String): T {
+    return GSON.fromJson(json, object : TypeToken<T>() {}.type)
 }
 
 fun objectToJson(obj: Any): String {
-    return Gson().toJson(obj)
+    return GSON.toJson(obj)
 }
 
-inline fun <reified T : Any> jsonConvert(obj: Any): T {
+inline fun <reified T> jsonConvert(obj: Any): T {
     if (obj is String || obj is JSONObject || obj is JSONArray) {
         return jsonToObject(obj.toString())
     }
