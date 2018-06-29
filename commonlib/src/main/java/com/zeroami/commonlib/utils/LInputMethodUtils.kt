@@ -40,7 +40,7 @@ object LInputMethodUtils {
         if (activity.currentFocus != null) {
             imm.hideSoftInputFromWindow(activity.currentFocus!!.windowToken, 0)
         } else {
-            imm.hideSoftInputFromWindow(activity.findViewById(android.R.id.content).windowToken, 0)
+            imm.hideSoftInputFromWindow(activity.findViewById<View>(android.R.id.content).windowToken, 0)
         }
     }
 
@@ -53,7 +53,7 @@ object LInputMethodUtils {
             if (activity.currentFocus != null) {
                 imm.hideSoftInputFromWindow(activity.currentFocus!!.windowToken, 0)
             } else {
-                imm.hideSoftInputFromWindow(activity.findViewById(android.R.id.content).windowToken, 0)
+                imm.hideSoftInputFromWindow(activity.findViewById<View>(android.R.id.content).windowToken, 0)
             }
             if (onTouchListener != null) {
                 return@OnTouchListener onTouchListener.onTouch(v, event)

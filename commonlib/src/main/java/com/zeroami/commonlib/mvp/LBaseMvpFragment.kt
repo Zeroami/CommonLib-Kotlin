@@ -45,7 +45,7 @@ abstract class LBaseMvpFragment<out P : LMvpPresenter<*>> : LBaseFragment(), LMv
 
     override fun onViewCreated() {
         super.onViewCreated()
-        swipeRefreshLayout = layoutView.findViewById(R.id.swipeRefreshLayout) as SwipeRefreshLayout?
+        swipeRefreshLayout = layoutView.findViewById(R.id.swipeRefreshLayout)
     }
 
     /**
