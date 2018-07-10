@@ -6,8 +6,9 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
-import com.zeroami.commonlib.mvp.LRxSupport
+import android.view.WindowManager
 import com.zeroami.commonlib.library.swipebacklayout.SwipeBackActivity
+import com.zeroami.commonlib.mvp.LRxSupport
 import com.zeroami.commonlib.utils.LActivityUtils
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -31,9 +32,11 @@ abstract class LBaseActivity : SwipeBackActivity(), LRxSupport {
                 handleExtras(intent.extras)
             }
         }
+        if (isHideStatusBar) {
+            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
         if (isFullScreenLayout) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                val window = window
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             }
         }
@@ -88,6 +91,11 @@ abstract class LBaseActivity : SwipeBackActivity(), LRxSupport {
      * 是否全屏显示布局，会将布局延伸到状态栏
      */
     protected open val isFullScreenLayout: Boolean = false
+
+    /**
+     * 是否隐藏状态栏
+     */
+    protected open val isHideStatusBar: Boolean = false
 
     /**
      * 是否启动滑动返回

@@ -5,14 +5,14 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
 /**
- * 加解密工具类
+ * Hash工具类
 
  * @author Zeroami
  */
-object LCipherUtils {
+object LHashUtils {
 
     /**
-     * MD5加密
+     * MD5
      */
     fun md5(string: String): String {
         try {

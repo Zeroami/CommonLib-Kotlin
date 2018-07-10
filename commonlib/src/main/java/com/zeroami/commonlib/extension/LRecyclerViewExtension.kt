@@ -80,8 +80,8 @@ fun RecyclerView.smoothMoveToPosition(position: Int) {
         if (position <= firstItem) {
             this.smoothScrollToPosition(position)
         } else if (position <= lastItem) {
-            val top = this.getChildAt(position - firstItem).top
-            this.smoothScrollBy(0, top)
+            this.smoothScrollToPosition(lastItem)
+            move = true
         } else {
             this.smoothScrollToPosition(position)
             move = true
