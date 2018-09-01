@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import com.zeroami.commonlib.library.swipebacklayout.SwipeBackActivity
@@ -62,6 +63,20 @@ abstract class LBaseActivity : SwipeBackActivity(), LRxSupport {
         super.onDestroy()
     }
 
+    // 点击返回键返回桌面而不是退出程序
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        if (isHomeOnBack) {
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                val home = Intent(Intent.ACTION_MAIN)
+                home.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                home.addCategory(Intent.CATEGORY_HOME)
+                startActivity(home)
+                return true
+            }
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
     /**
      * 获取布局文件id
      */
@@ -101,6 +116,11 @@ abstract class LBaseActivity : SwipeBackActivity(), LRxSupport {
      * 是否启动滑动返回
      */
     protected open val isSwipeBackEnable: Boolean = false
+
+    /**
+     * 是否返回桌面
+     */
+    protected open val isHomeOnBack: Boolean = false
 
     /**
      * 获取Fragment容器id

@@ -75,12 +75,15 @@ fun RecyclerView.smoothMoveToPosition(position: Int) {
         this.removeOnScrollListener(onScrollListener)
         this.addOnScrollListener(onScrollListener)
         val manager = this.layoutManager as LinearLayoutManager
-        val firstItem = manager.findFirstVisibleItemPosition()
-        val lastItem = manager.findLastVisibleItemPosition()
-        if (position <= firstItem) {
+        val firstPosition = manager.findFirstVisibleItemPosition()
+        val lastPosition = manager.findLastVisibleItemPosition()
+        if (position - firstPosition > 10) {
+            moveToPosition(position - 10)
+        }
+        if (position <= firstPosition) {
             this.smoothScrollToPosition(position)
-        } else if (position <= lastItem) {
-            this.smoothScrollToPosition(lastItem)
+        } else if (position <= lastPosition) {
+            this.smoothScrollToPosition(lastPosition)
             move = true
         } else {
             this.smoothScrollToPosition(position)

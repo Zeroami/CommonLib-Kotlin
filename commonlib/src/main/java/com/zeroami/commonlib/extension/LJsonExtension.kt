@@ -1,11 +1,18 @@
 package com.zeroami.commonlib.extension
 
-import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.zeroami.commonlib.common.LHashMapDeserializerDoubleAsIntFix
+import com.zeroami.commonlib.common.LMapDeserializerDoubleAsIntFix
 import org.json.JSONArray
 import org.json.JSONObject
 
-val GSON by lazy { Gson() }
+val GSON by lazy {
+    GsonBuilder()
+            .registerTypeAdapter(object : TypeToken<HashMap<String, Any>>() {}.type, LHashMapDeserializerDoubleAsIntFix())
+            .registerTypeAdapter(object : TypeToken<Map<String, Any>>() {}.type, LMapDeserializerDoubleAsIntFix())
+            .create()
+}
 
 inline fun <reified T> jsonToObject(json: String): T {
     return GSON.fromJson(json, object : TypeToken<T>() {}.type)

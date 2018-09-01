@@ -1,11 +1,11 @@
 package com.zeroami.commonlib.utils
 
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.os.Build
-import android.os.Bundle
-import android.os.Parcelable
+import android.media.RingtoneManager
+import android.os.*
 import android.view.View
 import com.zeroami.commonlib.CommonLib
 import java.io.Serializable
@@ -16,6 +16,8 @@ import java.io.Serializable
  * @author Zeroami
  */
 object LUtils {
+
+    private val vibrator by lazy { CommonLib.ctx.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator }
 
     /**
      * 复制文本到剪贴板
@@ -86,4 +88,24 @@ object LUtils {
         }
         return extras
     }
+
+    @SuppressLint("MissingPermission")
+    fun vibrate() {
+        if (isAndroidO()) {
+            vibrator.vibrate(VibrationEffect.createWaveform(longArrayOf(300, 300, 300), intArrayOf(VibrationEffect.DEFAULT_AMPLITUDE, 0, VibrationEffect.DEFAULT_AMPLITUDE), -1))
+        } else {
+            vibrator.vibrate(longArrayOf(0, 300, 300, 300), -1)     // OFF/ON/OFF/ON
+        }
+    }
+
+    fun playRing() {
+        try {
+            val ringtone = RingtoneManager.getRingtone(CommonLib.ctx, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+            ringtone.play()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun isAndroidO(): Boolean = Build.VERSION.SDK_INT >= 26
 }

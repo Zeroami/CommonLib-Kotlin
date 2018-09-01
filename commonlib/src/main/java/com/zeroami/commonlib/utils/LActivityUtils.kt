@@ -1,8 +1,8 @@
 package com.zeroami.commonlib.utils
 
 import android.app.Activity
-
-import java.util.ArrayList
+import org.jetbrains.anko.collections.forEachReversed
+import java.util.*
 
 /**
  * Activity工具类
@@ -39,8 +39,18 @@ object LActivityUtils {
      */
     val topActivity: Activity?
         get() {
-            if (activityList.size > 0) {
-                return activityList[activityList.size - 1]
+            return activityList.lastOrNull()
+        }
+
+    /**
+     * 获取栈顶第一个有效的Activity
+     */
+    val topActiveActivity: Activity?
+        get() {
+            activityList.forEachReversed {
+                if (!it.isFinishing) {
+                    return it
+                }
             }
             return null
         }
