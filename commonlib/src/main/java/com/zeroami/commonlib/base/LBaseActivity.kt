@@ -64,7 +64,7 @@ abstract class LBaseActivity : SwipeBackActivity(), LRxSupport {
     }
 
     // 点击返回键返回桌面而不是退出程序
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (isHomeOnBack) {
             if (keyCode == KeyEvent.KEYCODE_BACK) {
                 val home = Intent(Intent.ACTION_MAIN)

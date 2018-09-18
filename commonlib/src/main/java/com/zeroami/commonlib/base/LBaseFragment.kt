@@ -80,7 +80,14 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
                     isInit = true
                     it.addView(layoutView)
                     contentViewCreated(savedInstanceState)
+                    onVisibleChanged(isVisibleToUser)
                 }
+            } else {
+                onVisibleChanged(isVisibleToUser)
+            }
+        }else{
+            if (isAfterOnCreateView){
+                onVisibleChanged(isVisibleToUser)
             }
         }
     }
@@ -159,6 +166,11 @@ abstract class LBaseFragment : Fragment(), LRxSupport {
      * initialize完成
      */
     protected open fun onInitialized() {}
+
+    /**
+     * 可见性改变
+     */
+    protected open fun onVisibleChanged(isVisible: Boolean) {}
 
     /**
      * 获取显示的第一个Fragment

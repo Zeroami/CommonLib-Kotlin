@@ -1,11 +1,9 @@
 package com.zeroami.commonlib
 
 import android.content.Context
-import android.text.TextUtils
-
 import com.orhanobut.logger.LogLevel
 import com.orhanobut.logger.Logger
-import kotlin.properties.Delegates
+import com.zeroami.commonlib.utils.LL
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -29,7 +27,6 @@ object CommonLib {
     }
 
     val TAG = "TAG"
-    var isDebug: Boolean = true
 
     /**
      * 初始化Context，使CommonLib正常工作
@@ -43,6 +40,7 @@ object CommonLib {
      * 日志开关
      */
     fun setEnableLog(isEnableLog: Boolean, tag: String = TAG) {
+        LL.setEnableLog(isEnableLog, tag)
         if (isEnableLog) {
             Logger.init(tag).logLevel(LogLevel.FULL).methodCount(1).methodOffset(1)
         } else {
